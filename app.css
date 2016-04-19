@@ -1,0 +1,132 @@
+/* ==========================================================================
+		Browser Problem Prompt
+   ========================================================================== */
+
+.browserproblem {
+	background: #C11E1E;
+	color: #000000;
+	padding: 0.8em 0;
+	font-size: 1.25em;
+	text-align: center;
+}
+
+/* ==========================================================================
+		Menu
+   ========================================================================== */
+@media (min-width: 768px) {
+	.sidebar-nav .navbar .navbar-collapse {
+		padding: 0;
+		max-height: none;
+	}
+	
+	.sidebar-nav .navbar ul {
+		float: none;
+	}
+	
+	.sidebar-nav .navbar ul:not {
+		display: block;
+	}
+	
+	.sidebar-nav .navbar li {
+		float: none;
+		display: block;
+	}
+	
+	.sidebar-nav .navbar li a {
+		padding-top: 12px;
+		padding-bottom: 12px;
+	}
+}
+
+/* ==========================================================================
+		Header
+   ========================================================================== */
+
+#header {
+	margin: 7px 0;
+}
+
+/* ==========================================================================
+		Action Heading
+   ========================================================================== */
+
+#actionsHeading {
+	text-align: center;
+}
+
+/* ==========================================================================
+		Action Buttons
+   ========================================================================== */
+
+#actionsBtnGroup {
+	width: 100%;
+}
+
+#actionsBtnGroup .btn:first-child {
+	border-radius: 0;
+}
+
+#actionsBtnGroup .btn:last-child {
+	border-radius: 0 0 3px 3px;
+}
+
+/* ==========================================================================
+		Emulator
+   ========================================================================== */
+
+html.wait, body.wait {
+	cursor: progress !important;
+}
+
+#emulator-iframe {	
+	display: none;
+	background-color: black;
+}
+
+#emulator-loading-spinner {
+	margin: 10px 0 0 90px;
+}
+
+/* ==========================================================================
+		Error Page
+   ========================================================================== */
+
+#error-panel {
+	margin-top: 10px;
+}
+
+/* ==========================================================================
+		Standard Environments Overview
+   ========================================================================== */
+
+#standard-envs-overview-table {
+	width: 650px;
+}
+
+/* ==========================================================================
+		Edit Environment
+   ========================================================================== */
+
+#editEnvForm {
+	max-width: 650px;
+}
+
+#editEnvSoftwareListLabel {
+	margin-bottom: 0;
+}
+
+#editEnvSoftwareList {
+	margin-bottom: 50px;
+}
+   
+#standard-envs-overview-table {
+	width: 650px;
+}
+
+/* ==========================================================================
+		Utility classes
+   ========================================================================== */
+
+.m-t-0 {
+  margin-top: 0 !important;
+}

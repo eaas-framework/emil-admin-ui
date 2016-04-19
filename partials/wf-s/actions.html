@@ -1,0 +1,10 @@
+<div class="panel panel-default">
+	<div id="actionsHeading" class="panel-heading">Aktionen</div>
+
+	<div id="actionsBtnGroup" class="btn-group-vertical" role="group">
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.screenshot()">Screenshot</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.restartEmulator()">Neustarten</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.stopEmulator()">Beenden</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.openSaveEnvironmentDialog()">{{actionsCtrl.isNewEnv ? 'Umgebung' : 'Änderungen'}} speichern</button>
+	</div>
+</div>

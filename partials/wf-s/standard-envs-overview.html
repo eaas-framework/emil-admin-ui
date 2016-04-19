@@ -1,0 +1,32 @@
+<h1 class="m-t-0">Standardumgebungen</h1>
+
+<table id="standard-envs-overview-table" st-table="standardEnvsOverviewCtrl.envs" class="">
+	<thead>	
+		<tr>			
+			<th colspan="5">
+				<div style="text-align: right; margin-bottom: 15px;"><button type="submit" class="btn btn-default" ui-sref="wf-s.new-env"><span style="color: green" class="glyphicon glyphicon-plus"></span> Neue Umgebung anlegen</button></div>
+				<input st-search="" class="form-control" placeholder="Eintippen zum Suchen..." type="text"/><br>
+			</th>
+		</tr>	
+	</thead>
+	
+	<tbody>
+		<tr ng-repeat="row in standardEnvsOverviewCtrl.envs">
+			<td>
+				<b>{{row.title}}</b>
+				<a ui-sref="wf-s.emulator({envId: row.envId})">starten</a> 
+				<a ui-sref="wf-s.edit-env({envId: row.envId})">bearbeiten</a> <br>
+				{{row.version}}<br>
+				{{row.description}}<br><br>
+			</td>
+		</tr>
+	</tbody>
+	
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="2" st-displayed-pages="7"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
