@@ -10,7 +10,9 @@
 	var configureEnv = "configureEnv?envId={0}";
 	var stopUrl = "stop?sessionId={0}";
 	var screenshotUrl = "screenshot?sessionId={0}";
+	var saveNewEnvironment = "saveNewEnvironment";
 	var saveEnvConfiguration = "saveEnvConfiguration";
+	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table'])
 		
@@ -70,7 +72,7 @@
 						templateUrl: 'partials/wf-s/standard-envs-overview.html',
 						controller: function ($scope, $state, environmentList, growl) {
 							if (environmentList.data.status !== "0") {
-								$state.go('error', {errorMsg: {title: "Load Environsments Error " + environmentList.data.status, message: environmentList.data.message}});
+								$state.go('error', {errorMsg: {title: "Load Environments Error " + environmentList.data.status, message: environmentList.data.message}});
 								return;
 							}
 						
@@ -83,30 +85,16 @@
 			.state('wf-s.new-env', {
 				url: "/new-env",
 				resolve: {
-					softwareList: function($http) {
-						return { 
-							data: [
-								{"title": "Microsoft Word", "softwareId": "1"},
-								{"title": "Adobe Reader", "softwareId": "2"},
-								{"title": "Adobe Photoshop", "softwareId": "3"},
-								{"title": "Google Chrome", "softwareId": "4"}								
-							]
-						};
+					softwareList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
 					}
 				},
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/new-env.html',
 						controller: function ($scope, $state, $stateParams, environmentList, softwareList, growl) {
-							this.envs = environmentList.data.environments;
-							this.software = softwareList.data;
-							
-							this.saveNew = function() {
-								console.log(this.selected_env);
-								console.log(this.selected_sw);
-								
-								// TODO save to server via post
-							};
+							this.envs = environmentList.data.environments;							
+							this.software = softwareList.data.descriptions;
 						},
 						controllerAs: "newEnvCtrl"
 					}
@@ -149,7 +137,8 @@
 				url: "/emulator",
 				params: {
 					envId: "-1",
-					isNewEnv: false
+					isNewEnv: false,
+					softwareId: null
 				},
 				resolve: {
 					configureEnv: function($http, $stateParams, localConfig) {
@@ -198,8 +187,21 @@
 									controller: function($scope) {
 										this.isNewEnv = $stateParams.isNewEnv;
 										
-										this.saveEnvironment = function() {											
-											$http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {sessionId: configureEnv.data.id, messsage: this.envDescription}).then(function(response) {
+										this.saveEnvironment = function() {
+											var postResult = null;											
+											
+											if ($stateParams.isNewEnv) {
+												postResult = $http.post(localConfig.data.eaasBackendURL + saveNewEnvironment, {
+													sessionId: configureEnv.data.id,
+													title: this.envName,
+													description: this.envDescription,
+													softwareId: $stateParams.softwareId
+												});
+											} else {
+												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {sessionId: configureEnv.data.id, messsage: this.envDescription});
+											}
+											
+											postResult.then(function(response) {
 												if (response.data.status === "0") {
 													growl.success(response.data.message, {title: 'Daten erfolgreich gespeichert'});
 												} else {
@@ -218,6 +220,23 @@
 							this.sessionId = configureEnv.data.id;
 						},
 						controllerAs: "actionsCtrl"
+					}
+				}
+			})
+			.state('wf-s.edit-object-software-mapping', {
+				url: "/edit-object-software-mapping?objectId",
+				resolve: {
+					softwareList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					}
+				},
+				views: {
+					'wizard': {
+						templateUrl: 'partials/wf-s/edit-object-software-mapping.html',
+						controller: function ($scope, $state, softwareList, growl) {						
+							// TBD
+						},
+						controllerAs: "editObjectSoftwareMappingCtrl"
 					}
 				}
 			});
