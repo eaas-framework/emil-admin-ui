@@ -8,6 +8,7 @@
 	
 	var getAllEnvsUrl = "getEmilEnvironments";
 	var configureEnv = "configureEnv?envId={0}";
+	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}";
 	var stopUrl = "stop?sessionId={0}";
 	var screenshotUrl = "screenshot?sessionId={0}";
 	var saveNewEnvironment = "saveNewEnvironment";
@@ -142,7 +143,15 @@
 				},
 				resolve: {
 					configureEnv: function($http, $stateParams, localConfig) {
-						return $http.get(localConfig.data.eaasBackendURL + formatStr(configureEnv, $stateParams.envId));
+						var result = null;
+						
+						if ($stateParams.isNewEnv) {
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithSoftwarePackage, $stateParams.envId, $stateParams.softwareId))
+						} else {
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(configureEnv, $stateParams.envId));
+						}
+						
+						return result;
 					}
 				},
 				views: {
