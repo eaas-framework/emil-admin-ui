@@ -12,10 +12,11 @@
 	</div>
 </div>
 
-<ul class="list-group-item" ng-sortable="{animation:150}">
+<ul class="list-group-item" ng-sortable="{animation: 150, handle: '.handle'}">
 	<li class="list-group-item" ng-repeat="env in editObjectCharacterizationCtrl.objEnvironments">
 		<div class="handle btn btn-primary"><i class="glyphicon glyphicon-move"></i></div>
-		<h4 style="display: inline-block;">{{env.label}}</h4>		
+		<h4 style="display: inline-block;">{{env.label}}</h4>
+		<div class="btn btn-default" style="float: right; color: #CC322E;" ng-click="editObjectCharacterizationCtrl.removeEnvironment(env)"><i class="glyphicon glyphicon-remove"></i></div>
 	</li>
 </ul>
 

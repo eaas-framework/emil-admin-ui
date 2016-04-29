@@ -291,6 +291,22 @@
 								});
 							};
 							
+							this.removeEnvironment = function(env) {
+								if (objEnvironments.data.environments.length === 1) {
+									growl.error("Es muss mindestens eine Umgebung zugeordnet werden.");
+									return;
+								}
+								
+								var i;
+								for (i = 0; i < objEnvironments.data.environments.length; i++) {
+									if (objEnvironments.data.environments[i].id === env.id) {
+										break;
+									}
+								}
+								
+								objEnvironments.data.environments.splice(i, 1);
+							};
+							
 							this.saveCharacterization = function() {
 								$http.post(localConfig.data.eaasBackendURL + overrideObjectCharacterizationUrl, {
 									objectId: $stateParams.objectId,
