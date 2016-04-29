@@ -255,10 +255,13 @@
 							
 							this.automaticCharacterization = function() {
 								if (window.confirm("Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?")) {
-									$http.get(localConfig.data.eaasBackendURL + formatStr(characterizeObjectUrl, $stateParams.objectId)).then(function(resp) {
-										// TBD show idle spinner
+									$http.get(localConfig.data.eaasBackendURL + formatStr(characterizeObjectUrl, $stateParams.objectId)).then(function(response) {
+										if (response.data.status !== "0") {
+											growl.error(response.data.message, {title: 'Error ' + response.data.status});
+											return;
+										}
 										
-										this.objEnvironments = resp.data.environments;
+										this.objEnvironments = response.data.environments;
 									});
 								}
 							};
