@@ -4,9 +4,9 @@
 
 <div class="modal-body">
 	<ui-select id="chooseCustomEnvSelect" ng-model="addEnvDialogCtrl.newEnv" theme="bootstrap" title="Wählen oder suchen sie eine Umgebung..." required>
-		<ui-select-match placeholder="Wählen oder suchen sie eine Umgebung...">{{$select.selected.label}}</ui-select-match>
+		<ui-select-match placeholder="Wählen oder suchen sie eine Umgebung...">{{$select.selected.title}}</ui-select-match>
 		<ui-select-choices repeat="env in addEnvDialogCtrl.environments | filter: $select.search">
-			<span ng-bind-html="env.label | highlight: $select.search"></span>
+			<span ng-bind-html="env.title | highlight: $select.search"></span>
 		</ui-select-choices>
 	</ui-select>
 </div>

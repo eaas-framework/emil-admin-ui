@@ -280,7 +280,10 @@
 										this.environments = environmentList.data.environments;
 										
 										this.addEnvironment = function() {											
-											objEnvironments.data.environments.push(this.newEnv);											
+											objEnvironments.data.environments.push({
+												"id": this.newEnv.envId,
+												"label": this.newEnv.title											
+											});											
 											$scope.$close();
 										};
 									},
