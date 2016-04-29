@@ -16,7 +16,7 @@
 				<b>{{row.title}}</b>
 				<a ui-sref="wf-s.emulator({envId: row.envId})">starten</a> 
 				<a ui-sref="wf-s.edit-env({envId: row.envId})">bearbeiten</a> <br>
-				{{row.version}}<br>
+				<span ng-show="{{row.version != null}}">{{row.version}}<br></span>
 				{{row.description}}<br><br>
 			</td>
 		</tr>
