@@ -15,7 +15,7 @@
 	var saveNewEnvironment = "saveNewEnvironment";
 	var saveEnvConfiguration = "saveEnvConfiguration";
 	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
-	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization?objectId={0}";
+	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization";
 	var characterizeObjectUrl = "characterizeObject?objectId={0}"
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable'])
@@ -284,7 +284,8 @@
 							};
 							
 							this.saveCharacterization = function() {
-								$http.post(localConfig.data.eaasBackendURL + formatStr(overrideObjectCharacterizationUrl, $stateParams.objectId), {
+								$http.post(localConfig.data.eaasBackendURL + overrideObjectCharacterizationUrl, {
+									objectId: $stateParams.objectId,
 									environments: objEnvironments.data.environments
 								}).then(function() {
 									$state.go('wf-s.standard-envs-overview');
