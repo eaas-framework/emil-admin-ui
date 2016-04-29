@@ -1,6 +1,6 @@
 <h1 class="m-t-0">Standardumgebungen</h1>
 
-<table id="standard-envs-overview-table" st-table="standardEnvsOverviewCtrl.envs" class="">
+<table id="standard-envs-overview-table" st-table="standardEnvsOverviewCtrl.envs" class="table">
 	<thead>	
 		<tr>			
 			<th colspan="5">
@@ -17,7 +17,7 @@
 				<a ui-sref="wf-s.emulator({envId: row.envId})">starten</a> 
 				<a ui-sref="wf-s.edit-env({envId: row.envId})">bearbeiten</a> <br>
 				<span ng-show="{{row.version != null}}">{{row.version}}<br></span>
-				{{row.description}}<br><br>
+				{{row.description}}
 			</td>
 		</tr>
 	</tbody>

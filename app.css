@@ -100,7 +100,16 @@ html.wait, body.wait {
    ========================================================================== */
 
 #standard-envs-overview-table {
-	width: 650px;
+  width: 650px;
+}
+
+#standard-envs-overview-table > thead > tr > th {
+  border-bottom: 0;
+}
+
+#standard-envs-overview-table > tbody > tr > td {
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 /* ==========================================================================
@@ -112,15 +121,15 @@ html.wait, body.wait {
 }
 
 #editEnvSoftwareListLabel {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #editEnvSoftwareList {
-	margin-bottom: 50px;
+  margin-bottom: 50px;
 }
    
 #standard-envs-overview-table {
-	width: 650px;
+  width: 650px;
 }
 
 /* ==========================================================================
