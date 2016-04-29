@@ -6,6 +6,7 @@
 		});
 	};
 	
+	var loadEnvsUrl = "loadEnvs?objectId={0}";
 	var getAllEnvsUrl = "getEmilEnvironments";
 	var configureEnv = "configureEnv?envId={0}";
 	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}";
@@ -15,7 +16,7 @@
 	var saveEnvConfiguration = "saveEnvConfiguration";
 	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'lrDragNDrop'])
 		
 	.config(function($stateProvider, $urlRouterProvider, growlProvider, $httpProvider) {
 		// Add a global AJAX error handler
@@ -202,12 +203,17 @@
 											if ($stateParams.isNewEnv) {
 												postResult = $http.post(localConfig.data.eaasBackendURL + saveNewEnvironment, {
 													sessionId: configureEnv.data.id,
+													envId: $stateParams.envId,
 													title: this.envName,
 													description: this.envDescription,
-													softwareId: $stateParams.softwareId
+													softwareId: $stateParams.softwareId													
 												});
 											} else {
-												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {sessionId: configureEnv.data.id, messsage: this.envDescription});
+												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {
+													sessionId: configureEnv.data.id,
+													envId: $stateParams.envId,
+													messsage: this.envDescription
+												});
 											}
 											
 											postResult.then(function(response) {
@@ -232,20 +238,42 @@
 					}
 				}
 			})
-			.state('wf-s.edit-object-software-mapping', {
-				url: "/edit-object-software-mapping?objectId",
+			.state('wf-s.edit-object-characterization', {
+				url: "/edit-object-characterization?objectId",
 				resolve: {
-					softwareList: function($http, localConfig) {
-						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					objEnvironments: function($stateParams, $http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + formatStr(loadEnvsUrl, $stateParams.objectId));
 					}
 				},
 				views: {
 					'wizard': {
-						templateUrl: 'partials/wf-s/edit-object-software-mapping.html',
-						controller: function ($scope, $state, softwareList, growl) {						
-							// TBD
+						templateUrl: 'partials/wf-s/edit-object-characterization.html',
+						controller: function ($scope, $state, $uibModal, objEnvironments, environmentList, growl) {						
+							this.objEnvironments = objEnvironments.data.environments;
+							
+							this.openAddEnvDialog = function() {
+								$uibModal.open({
+									animation: true,
+									templateUrl: 'partials/wf-s/add-environment-dialog.html',
+									controller: function($scope) {
+										this.newEnv = null;
+										this.environments = environmentList.data.environments;
+										
+										this.addEnvironment = function() {
+											if (this.newEnv === null) {
+												growl.warning("Sie haben keine Umgebung ausgewählt..");
+												return;
+											}
+											
+											objEnvironments.data.environments.push(this.newEnv);											
+											$scope.$close();
+										};
+									},
+									controllerAs: "addEnvDialogCtrl"
+								});
+							}
 						},
-						controllerAs: "editObjectSoftwareMappingCtrl"
+						controllerAs: "editObjectCharacterizationCtrl"
 					}
 				}
 			});
