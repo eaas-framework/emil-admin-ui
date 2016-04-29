@@ -1,11 +1,27 @@
 <h1 class="m-t-0">Objektcharakterisierung</h1>
 
-<div style="text-align: right; margin-bottom: 15px;"><button type="submit" class="btn btn-default" ng-click="editObjectCharacterizationCtrl.openAddEnvDialog()">
-	<span style="color: green" class="glyphicon glyphicon-plus"></span> Umgebung hinzufügen</button>
+<div style="text-align: right; margin-bottom: 15px;">
+	<div style="display: inline-block;">
+		<button type="submit" class="btn btn-default" ng-click="editObjectCharacterizationCtrl.automaticCharacterization()">
+		<span class="glyphicon glyphicon-cloud-download"></span> Automatische Charakterisierung</button>
+	</div>
+
+	<div style="display: inline-block;">
+		<button type="submit" class="btn btn-default" ng-click="editObjectCharacterizationCtrl.openAddEnvDialog()">
+		<span style="color: green" class="glyphicon glyphicon-plus"></span> Umgebung hinzufügen</button>
+	</div>
 </div>
 
-<ul>
-	<li lr-drag-src="editObjectCharacterizationCtrl.reorder" lr-drop-target="editObjectCharacterizationCtrl.reorder" ng-repeat="env in editObjectCharacterizationCtrl.objEnvironments">
-		<h4>{{env.label}}</h4>
+<ul class="list-group-item" ng-sortable="{animation:150}">
+	<li class="list-group-item" ng-repeat="env in editObjectCharacterizationCtrl.objEnvironments">
+		<div class="handle btn btn-primary"><i class="glyphicon glyphicon-move"></i></div>
+		<h4 style="display: inline-block;">{{env.label}}</h4>		
 	</li>
 </ul>
+
+<br>
+
+<div style="text-align: right;">
+	<button class="btn btn-primary" type="button" ng-click="editObjectCharacterizationCtrl.saveCharacterization()">Speichern</button>
+	<button class="btn btn-default" type="button" ui-sref="wf-s.standard-envs-overview">Abbrechen</button>
+</div>

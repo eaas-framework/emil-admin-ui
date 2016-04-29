@@ -12,6 +12,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="addEnvDialogCtrl.addEnvironment()">Hinzufügen</button>
+	<button class="btn btn-primary" type="button" ng-click="addEnvDialogCtrl.addEnvironment()" ng-disabled="addEnvDialogCtrl.newEnv == null">Hinzufügen</button>
 	<button class="btn btn-default" type="button" ng-click="$close()">Abbrechen</button>
 </div>

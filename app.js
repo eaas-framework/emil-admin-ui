@@ -15,8 +15,10 @@
 	var saveNewEnvironment = "saveNewEnvironment";
 	var saveEnvConfiguration = "saveEnvConfiguration";
 	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
+	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization?objectId={0}";
+	var characterizeObjectUrl = "characterizeObject?objectId={0}"
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'lrDragNDrop'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable'])
 		
 	.config(function($stateProvider, $urlRouterProvider, growlProvider, $httpProvider) {
 		// Add a global AJAX error handler
@@ -248,8 +250,18 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-object-characterization.html',
-						controller: function ($scope, $state, $uibModal, objEnvironments, environmentList, growl) {						
+						controller: function ($scope, $state, $stateParams, $uibModal, $http, localConfig, objEnvironments, environmentList, growl) {						
 							this.objEnvironments = objEnvironments.data.environments;
+							
+							this.automaticCharacterization = function() {
+								if (window.confirm("Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?")) {
+									$http.get(localConfig.data.eaasBackendURL + formatStr(characterizeObjectUrl, $stateParams.objectId)).then(function(resp) {
+										// TBD show idle spinner
+										
+										this.objEnvironments = resp.data.environments;
+									});
+								}
+							};
 							
 							this.openAddEnvDialog = function() {
 								$uibModal.open({
@@ -259,19 +271,22 @@
 										this.newEnv = null;
 										this.environments = environmentList.data.environments;
 										
-										this.addEnvironment = function() {
-											if (this.newEnv === null) {
-												growl.warning("Sie haben keine Umgebung ausgewählt..");
-												return;
-											}
-											
+										this.addEnvironment = function() {											
 											objEnvironments.data.environments.push(this.newEnv);											
 											$scope.$close();
 										};
 									},
 									controllerAs: "addEnvDialogCtrl"
 								});
-							}
+							};
+							
+							this.saveCharacterization = function() {
+								$http.post(localConfig.data.eaasBackendURL + formatStr(overrideObjectCharacterizationUrl, $stateParams.objectId), {
+									environments: objEnvironments.data.environments
+								}).then(function() {
+									$state.go('wf-s.standard-envs-overview');
+								});
+							};
 						},
 						controllerAs: "editObjectCharacterizationCtrl"
 					}
