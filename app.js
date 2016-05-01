@@ -16,7 +16,8 @@
 	var saveEnvConfiguration = "saveEnvConfiguration";
 	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
 	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization";
-	var characterizeObjectUrl = "characterizeObject?objectId={0}"
+	var characterizeObjectUrl = "characterizeObject?objectId={0}";
+	var updateDescriptionUrl = "updateDescription";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable'])
 		
@@ -129,8 +130,23 @@
 							this.saveEdit = function() {
 								environmentList.data.environments[envIndex].title = this.envName;
 								environmentList.data.environments[envIndex].description = this.envDescription;
-								
-								// TODO save to server via post
+							
+								postResult = $http.post(localConfig.data.eaasBackendURL + updateDescription, {
+													envId: $stateParams.envId,
+													title: this.envName,
+													description: this.envDescription,
+												});
+	
+								postResult.then(function(response) {
+									if (response.data.status === "0") {
+										growl.success(response.data.message, {title: 'Daten erfolgreich gespeichert'});
+									} else {
+										growl.error(response.data.message, {title: 'Error ' + response.data.status});
+									}
+												
+									$scope.$close();
+									$state.go('wf-s.standard-envs-overview', {}, {reload: true});
+								});
 							};
 						},
 						controllerAs: "editEnvCtrl"
