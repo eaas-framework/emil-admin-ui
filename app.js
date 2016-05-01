@@ -214,7 +214,7 @@
 												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {
 													sessionId: configureEnv.data.id,
 													envId: $stateParams.envId,
-													messsage: this.envDescription
+													message: this.envDescription
 												});
 											}
 											
