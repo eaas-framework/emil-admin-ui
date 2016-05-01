@@ -113,7 +113,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-env.html',
-						controller: function ($http, $scope, $state, $stateParams, environmentList, growl, localConfig) {
+						controller: function ($http, $scope, $state, $stateParams, environmentList, localConfig, growl) {
 							var envIndex = -1;
 							for(var i = 0; i < environmentList.data.environments.length; i++) {
 								if (environmentList.data.environments[i].envId === $stateParams.envId) {
@@ -132,20 +132,17 @@
 								environmentList.data.environments[envIndex].title = this.envName;
 								environmentList.data.environments[envIndex].description = this.envDescription;
 							
-								postResult = $http.post(localConfig.data.eaasBackendURL + updateDescriptionUrl, {
-													envId: $stateParams.envId,
-													title: this.envName,
-													description: this.envDescription,
-												});
-	
-								postResult.then(function(response) {
+								$http.post(localConfig.data.eaasBackendURL + updateDescriptionUrl, {
+									envId: $stateParams.envId,
+									title: this.envName,
+									description: this.envDescription
+								}).then(function(response) {
 									if (response.data.status === "0") {
-										growl.success(response.data.message, {title: 'Daten erfolgreich gespeichert'});
+										growl.success('Daten erfolgreich gespeichert');
 									} else {
 										growl.error(response.data.message, {title: 'Error ' + response.data.status});
 									}
-												
-									$scope.$close();
+									
 									$state.go('wf-s.standard-envs-overview', {}, {reload: true});
 								});
 							};
