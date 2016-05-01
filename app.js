@@ -113,7 +113,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-env.html',
-						controller: function ($scope, $state, $stateParams, environmentList, growl) {
+						controller: function ($http, $scope, $state, $stateParams, environmentList, growl, localConfig) {
 							var envIndex = -1;
 							for(var i = 0; i < environmentList.data.environments.length; i++) {
 								if (environmentList.data.environments[i].envId === $stateParams.envId) {
@@ -131,7 +131,7 @@
 								environmentList.data.environments[envIndex].title = this.envName;
 								environmentList.data.environments[envIndex].description = this.envDescription;
 							
-								postResult = $http.post(localConfig.data.eaasBackendURL + updateDescription, {
+								postResult = $http.post(localConfig.data.eaasBackendURL + updateDescriptionUrl, {
 													envId: $stateParams.envId,
 													title: this.envName,
 													description: this.envDescription,
