@@ -11,14 +11,14 @@
 		<textarea class="form-control" rows="3" ng-model="editEnvCtrl.envDescription" placeholder="Beschreibung der Umgebung.." required></textarea>
 	</div>
 
-	<p><b>Emulator:</b> {{editEnvCtrl.envEmulator}} </p>
-	<p><b>OS:</b> {{editEnvCtrl.envOS}} </p>
-	<p id="editEnvSoftwareListLabel"><b>Software:</b></p>
-	<ul id="editEnvSoftwareList">
-		<li>Software1</li>
-		<li>Software2</li>
-		<li>Software3</li>
-	</ul>
+	<p><b>Emulator:</b> {{editEnvCtrl.env.emulator}} </p>
+	<p><b>OS:</b> {{editEnvCtrl.env.os}} </p>
+	<div ng-show="editEnvCtrl.env.installedSoftwareIds.length > 0">
+		<p id="editEnvSoftwareListLabel"><b>Software:</b></p>
+		<ul id="editEnvSoftwareList">
+			<li ng-repeat="softwareId in editEnvCtrl.env.installedSoftwareIds">{{softwareId}}</li>
+		</ul>
+	</div>
 
 	<div style="text-align: right;">
 		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">Abbrechen</button>

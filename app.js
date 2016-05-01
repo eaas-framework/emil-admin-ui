@@ -122,10 +122,11 @@
 								}
 							}
 							
+							// for readonly
+							this.env = environmentList.data.environments[envIndex];
+							
 							this.envName = environmentList.data.environments[envIndex].title;
 							this.envDescription = environmentList.data.environments[envIndex].description;
-							this.envEmulator = environmentList.data.environments[envIndex].emulator;
-							this.envOS = environmentList.data.environments[envIndex].os;
 							
 							this.saveEdit = function() {
 								environmentList.data.environments[envIndex].title = this.envName;
