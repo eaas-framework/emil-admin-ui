@@ -264,10 +264,12 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-object-characterization.html',
-						controller: function ($scope, $state, $stateParams, $uibModal, $http, localConfig, objEnvironments, environmentList, growl) {						
-							this.objEnvironments = objEnvironments.data.environments;
+						controller: function ($scope, $state, $stateParams, $uibModal, $http, localConfig, objEnvironments, environmentList, growl) {
+							var vm = this;
 							
-							this.automaticCharacterization = function() {
+							vm.objEnvironments = objEnvironments.data.environments;
+							
+							vm.automaticCharacterization = function() {
 								if (window.confirm("Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?")) {
 									$("html, body").addClass("wait");
 									$(".fullscreen-overlay-spinner").show();
@@ -277,7 +279,7 @@
 											return;
 										}
 										
-										this.objEnvironments = response.data.environments;
+										vm.objEnvironments = response.data.environments;
 									})['finally'](function() {
 										$("html, body").removeClass("wait");
 										$(".fullscreen-overlay-spinner").hide();
@@ -285,7 +287,7 @@
 								}
 							};
 							
-							this.openAddEnvDialog = function() {
+							vm.openAddEnvDialog = function() {
 								$uibModal.open({
 									animation: true,
 									templateUrl: 'partials/wf-s/add-environment-dialog.html',
@@ -305,7 +307,7 @@
 								});
 							};
 							
-							this.removeEnvironment = function(env) {
+							vm.removeEnvironment = function(env) {
 								if (objEnvironments.data.environments.length === 1) {
 									growl.error("Es muss mindestens eine Umgebung zugeordnet werden.");
 									return;
@@ -321,7 +323,7 @@
 								objEnvironments.data.environments.splice(i, 1);
 							};
 							
-							this.saveCharacterization = function() {
+							vm.saveCharacterization = function() {
 								$http.post(localConfig.data.eaasBackendURL + overrideObjectCharacterizationUrl, {
 									objectId: $stateParams.objectId,
 									environments: objEnvironments.data.environments
