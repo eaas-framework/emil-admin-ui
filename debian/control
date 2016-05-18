@@ -1,5 +1,5 @@
 Source: emil-admin-ui
-Section: unknown
+Section: misc
 Priority: optional
 Maintainer: Thomas Liebetraut <thomas@idefix>
 Build-Depends: debhelper (>=9), dh-exec
