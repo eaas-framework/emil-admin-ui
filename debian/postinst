@@ -11,7 +11,7 @@
 case "$1" in
     configure)
 
-    db_get "emil-admin-ui/eaas-backend-url
+    db_get "emil-admin-ui/eaas-backend-url"
     backend_url="$RET"
     mkdir -p /etc/emil
     cat << EOF > /etc/emil/emil-admin-ui.json
