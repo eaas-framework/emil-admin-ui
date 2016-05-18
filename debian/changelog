@@ -1,0 +1,5 @@
+emil-admin-ui (20160512-1) trusty; urgency=medium
+
+  * Initial release as a debian package.
+
+ -- Thomas Liebetraut <thomas@idefix>  Wed, 18 May 2016 15:36:36 +0200

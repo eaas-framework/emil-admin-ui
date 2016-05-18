@@ -1,0 +1,14 @@
+#!/bin/sh
+ 
+# Exit on error
+set -e
+ 
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+echo miep
+
+db_input critical emil-admin-ui/eaas-backend-url || true
+db_go
+
+echo moep
