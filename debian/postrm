@@ -23,7 +23,7 @@ case "$1" in
     purge)
     rm -f /etc/emil/emil-admin-ui.json
     #delete /etc/emil if empty
-    find /etc/emil -maxdepth 0 -type d -empty -exec rmdir {} \;
+    find /etc -maxdepth 1 -name emil -type d -empty -exec rmdir {} \;
     ;;
 
     remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
