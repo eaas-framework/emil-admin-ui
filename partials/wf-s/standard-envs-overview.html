@@ -1,6 +1,6 @@
 <h1 class="m-t-0">Standardumgebungen</h1>
 
-<table id="standard-envs-overview-table" st-table="standardEnvsOverviewCtrl.envs" class="table">
+<table id="standard-envs-overview-table" st-table="displayEnvs" st-safe-src="standardEnvsOverviewCtrl.envs" class="table">
 	<thead>	
 		<tr>			
 			<th colspan="5">
@@ -11,11 +11,12 @@
 	</thead>
 	
 	<tbody>
-		<tr ng-repeat="row in standardEnvsOverviewCtrl.envs">
+		<tr ng-repeat="row in displayEnvs">
 			<td>
 				<b>{{row.title}}</b>
 				<a ui-sref="wf-s.emulator({envId: row.envId})">[Umgebung konfigurieren]</a> 
-				<a ui-sref="wf-s.edit-env({envId: row.envId})">[Beschreibung bearbeiten]</a> <br>
+				<a ui-sref="wf-s.edit-env({envId: row.envId})">[Beschreibung bearbeiten]</a>
+				<a ng-click="standardEnvsOverviewCtrl.deleteEnvironment(row.envId)">[Umgebung löschen]</a> <br>
 				<span ng-show="row.version != null">Version: {{row.version}}<br></span>
 				{{row.description}}
 			</td>

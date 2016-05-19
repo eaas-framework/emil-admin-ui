@@ -18,6 +18,7 @@
 	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization";
 	var characterizeObjectUrl = "characterizeObject?objectId={0}";
 	var updateDescriptionUrl = "updateDescription";
+	var deleteEnvironmentUrl = "deleteEnvironment";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable'])
 		
@@ -75,13 +76,34 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/standard-envs-overview.html',
-						controller: function ($scope, $state, environmentList, growl) {
+						controller: function ($http, $state, environmentList, localConfig, growl) {
+							var vm = this;
+							
 							if (environmentList.data.status !== "0") {
 								$state.go('error', {errorMsg: {title: "Load Environments Error " + environmentList.data.status, message: environmentList.data.message}});
 								return;
 							}
+							
+							vm.deleteEnvironment = function(envId) {
+								if (window.confirm("Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?")) {									
+									$http.post(localConfig.data.eaasBackendURL + deleteEnvironmentUrl, {
+										envId: envId
+									}).then(function(response) {
+										if (response.data.status === "0") {
+											// remove env locally
+											vm.envs = vm.envs.filter(function(env) {
+												return env.id !== envId;
+											});
+											
+											growl.success('Umgebung wurde erfolgreich gelöscht');
+										} else {
+											growl.error(response.data.message, {title: 'Error ' + response.data.status});
+										}
+									});
+								}
+							};
 						
-							this.envs = environmentList.data.environments;
+							vm.envs = environmentList.data.environments;
 						},
 						controllerAs: "standardEnvsOverviewCtrl"
 					}
