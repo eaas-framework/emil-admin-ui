@@ -85,14 +85,14 @@
 							}
 							
 							vm.deleteEnvironment = function(envId) {
-								if (window.confirm("Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?")) {									
+								if (window.confirm("Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?")) {
 									$http.post(localConfig.data.eaasBackendURL + deleteEnvironmentUrl, {
 										envId: envId
 									}).then(function(response) {
 										if (response.data.status === "0") {
 											// remove env locally
 											vm.envs = vm.envs.filter(function(env) {
-												return env.id !== envId;
+												return env.envId !== envId;
 											});
 											
 											growl.success('Umgebung wurde erfolgreich gelöscht');
