@@ -301,7 +301,8 @@
 											return;
 										}
 										
-										vm.objEnvironments = response.data.environments;
+										vm.objEnvironments.length = 0;
+										vm.objEnvironments.push.apply(vm.objEnvironments, response.data.environments);
 									})['finally'](function() {
 										$("html, body").removeClass("wait");
 										$(".fullscreen-overlay-spinner").hide();
