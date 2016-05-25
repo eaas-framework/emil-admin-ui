@@ -317,7 +317,15 @@
 										this.newEnv = null;
 										this.environments = environmentList.data.environments;
 										
-										this.addEnvironment = function() {											
+										this.addEnvironment = function() {
+											// check if environment was already added
+											for (var i = 0; i < objEnvironments.data.environments.length; i++) {
+												if (objEnvironments.data.environments[i].id === this.newEnv.envId) {
+													growl.warning("Diese Umgebung ist bereits hinzugefügt..");
+													return;
+												}
+											}
+											
 											objEnvironments.data.environments.push({
 												"id": this.newEnv.envId,
 												"label": this.newEnv.title											
