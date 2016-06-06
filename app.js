@@ -20,9 +20,36 @@
 	var updateDescriptionUrl = "updateDescription";
 	var deleteEnvironmentUrl = "deleteEnvironment";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
 		
-	.config(function($stateProvider, $urlRouterProvider, growlProvider, $httpProvider) {
+	.config(function($stateProvider, $urlRouterProvider, growlProvider, $httpProvider, $translateProvider) {
+		/*
+		 * Internationalization 
+		 */
+
+		// German
+		$translateProvider.translations('en', {
+			CHOOSE_ENV_PROPOSAL: '[Configure environment]',
+			CHOOSE_ENV_EDIT: '[Edit description]'
+		});
+
+		// English
+		$translateProvider.translations('de', {
+			CHOOSE_ENV_PROPOSAL: '[Umgebung konfigurieren]',
+			CHOOSE_ENV_EDIT: '[Beschreibung bearbeiten]'
+		});
+
+		// escape HTML in the translation
+		$translateProvider.useSanitizeValueStrategy('escape');
+
+		$translateProvider.registerAvailableLanguageKeys(['en', 'de'], {
+		'en_*': 'en',
+		'de_*': 'de'
+		})
+
+		// automatically choose best language for user
+		$translateProvider.determinePreferredLanguage();
+
 		// Add a global AJAX error handler
 		$httpProvider.interceptors.push(function($q, $injector) {
 			return {

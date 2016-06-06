@@ -14,8 +14,8 @@
 		<tr ng-repeat="row in displayEnvs">
 			<td>
 				<b>{{row.title}}</b>
-				<a ui-sref="wf-s.emulator({envId: row.envId})">[Umgebung konfigurieren]</a> 
-				<a ui-sref="wf-s.edit-env({envId: row.envId})">[Beschreibung bearbeiten]</a>
+				<a ui-sref="wf-s.emulator({envId: row.envId})">{{'CHOOSE_ENV_PROPOSAL' | translate}}</a> 
+				<a ui-sref="wf-s.edit-env({envId: row.envId})">{{'CHOOSE_ENV_EDIT' | translate}}</a>
 				<a href="#" ng-click="standardEnvsOverviewCtrl.deleteEnvironment(row.envId)">[Umgebung löschen]</a> <br>
 				<span ng-show="row.version != null">Version: {{row.version}}<br></span>
 				{{row.description}}
