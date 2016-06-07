@@ -88,6 +88,14 @@
 			SAVEENV_DESC_PH: 'Description of changes..',
 			SAVEENV_SAVE: 'Save',
 			SAVEENV_CANCEL: 'Cancel',
+			
+			JS_DELENV_OK: 'Do you really want to delete this environment',
+			JS_DELENV_SUCCESS: 'Environment has been deleted',
+			JS_ENV_UPDATE: 'Metadata has been updated',
+			JS_ACTIONS_SUCCESS: 'Success',
+			JS_START_CHAR: 'Automated characterization may take some time. Continue?',
+			JS_ENV_ERR_DUP: 'Environment already selected',
+			JS_ENV_ERR_ZERO: 'At least one environment has to be selected'
 		});
 
 		// English
@@ -151,6 +159,14 @@
 			SAVEENV_DESC_PH: 'Beschreibung der Änderungen..',
 			SAVEENV_SAVE: 'Speichern',
 			SAVEENV_CANCEL: 'Abbrechen',
+			
+			JS_DELENV_OK: 'Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?',
+			JS_DELENV_SUCCESS: 'Umgebung wurde erfolgreich gelöscht',
+			JS_ENV_UPDATE: 'Daten erfolgreich gespeichert',
+			JS_ACTIONS_SUCCESS: 'Ausführung erfolgreich beendet',
+			JS_START_CHAR: 'Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?',
+			JS_ENV_ERR_DUP: 'Diese Umgebung ist bereits hinzugefügt..',
+			JS_ENV_ERR_ZERO: 'Es muss mindestens eine Umgebung zugeordnet werden.'
 		});
 
 		// escape HTML in the translation
@@ -217,7 +233,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/standard-envs-overview.html',
-						controller: function ($http, $state, environmentList, localConfig, growl) {
+						controller: function ($http, $state, environmentList, localConfig, growl, $translate) {
 							var vm = this;
 							
 							if (environmentList.data.status !== "0") {
@@ -226,7 +242,7 @@
 							}
 							
 							vm.deleteEnvironment = function(envId) {
-								if (window.confirm("Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?")) {
+								if (window.confirm($translate.instant('JS_DELENV_OK'))) {
 									$http.post(localConfig.data.eaasBackendURL + deleteEnvironmentUrl, {
 										envId: envId
 									}).then(function(response) {
@@ -236,7 +252,7 @@
 												return env.envId !== envId;
 											});
 											
-											growl.success('Umgebung wurde erfolgreich gelöscht');
+											growl.success($translate.instant('JS_DELENV_SUCCESS'));
 										} else {
 											growl.error(response.data.message, {title: 'Error ' + response.data.status});
 										}
@@ -276,7 +292,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-env.html',
-						controller: function ($http, $scope, $state, $stateParams, environmentList, localConfig, growl) {
+						controller: function ($http, $scope, $state, $stateParams, environmentList, localConfig, growl, $translate) {
 							var envIndex = -1;
 							for(var i = 0; i < environmentList.data.environments.length; i++) {
 								if (environmentList.data.environments[i].envId === $stateParams.envId) {
@@ -301,7 +317,7 @@
 									description: this.envDescription
 								}).then(function(response) {
 									if (response.data.status === "0") {
-										growl.success('Daten erfolgreich gespeichert');
+										growl.success($translate.instant('JS_ENV_UPDATE'));
 									} else {
 										growl.error(response.data.message, {title: 'Error ' + response.data.status});
 									}
@@ -344,13 +360,13 @@
 					},
 					'actions': {
 						templateUrl: 'partials/wf-s/actions.html',
-						controller: function ($scope, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig) {							
+						controller: function ($scope, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $translate) {							
 							this.isNewEnv = $stateParams.isNewEnv;
 						
 							this.stopEmulator = function() {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id)).then(function(response) {
 									if (response.data.status === "0") {
-										growl.success(response.data.message, {title: 'Ausführung erfolgreich beendet'});
+										growl.success(response.data.message, {title: $translate.instant('JS_ACTIONS_SUCCESS')});
 									} else {
 										growl.error(response.data.message, {title: 'Error ' + response.data.status});
 									}
@@ -397,7 +413,7 @@
 											
 											postResult.then(function(response) {
 												if (response.data.status === "0") {
-													growl.success(response.data.message, {title: 'Daten erfolgreich gespeichert'});
+													growl.success(response.data.message, {title: $translate.instant('JS_ACTIONS_SUCCESS')});
 												} else {
 													growl.error(response.data.message, {title: 'Error ' + response.data.status});
 												}
@@ -427,13 +443,13 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/edit-object-characterization.html',
-						controller: function ($scope, $state, $stateParams, $uibModal, $http, localConfig, objEnvironments, environmentList, growl) {
+						controller: function ($scope, $state, $stateParams, $uibModal, $http, localConfig, objEnvironments, environmentList, growl, $translate) {
 							var vm = this;
 							
 							vm.objEnvironments = objEnvironments.data.environments;
 							
 							vm.automaticCharacterization = function() {
-								if (window.confirm("Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?")) {
+								if (window.confirm($translate.instant('JS_START_CHAR'))) {
 									$("html, body").addClass("wait");
 									$(".fullscreen-overlay-spinner").show();
 									$http.get(localConfig.data.eaasBackendURL + formatStr(characterizeObjectUrl, $stateParams.objectId)).then(function(response) {
@@ -463,7 +479,7 @@
 											// check if environment was already added
 											for (var i = 0; i < objEnvironments.data.environments.length; i++) {
 												if (objEnvironments.data.environments[i].id === this.newEnv.envId) {
-													growl.warning("Diese Umgebung ist bereits hinzugefügt..");
+													growl.warning($translate.instant('JS_ENV_ERR_DUP'));
 													return;
 												}
 											}
@@ -481,7 +497,7 @@
 							
 							vm.removeEnvironment = function(env) {
 								if (objEnvironments.data.environments.length === 1) {
-									growl.error("Es muss mindestens eine Umgebung zugeordnet werden.");
+									growl.error($translate.instant('JS_ENV_ZERO'));
 									return;
 								}
 								
