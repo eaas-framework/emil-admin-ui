@@ -12,7 +12,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label>{{'NEWENV_SW | translate: newEnvCtrl }}</label>
+		<label>{{'NEWENV_SW' | translate: newEnvCtrl }}</label>
 		<ui-select ng-model="newEnvCtrl.selected_sw" theme="bootstrap" style="width: 350px;" title="{{'NEWENV_SELECT_SW' | translate: newEnvCtrl }}">
 			<ui-select-match placeholder="{{'NEWENV_SELECT_SW' | translate: newEnvCtrl }}">{{$select.selected.label}}</ui-select-match>
 			<ui-select-choices repeat="sw in newEnvCtrl.software | filter: $select.search">
@@ -22,7 +22,7 @@
 	</div>
 
 	<div style="text-align: right;">
-		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'NEWENV_CANCEL | translate: newEnvCtrl }}</button>
-		<button type="submit" class="btn btn-primary" ui-sref="wf-s.emulator({envId: newEnvCtrl.selected_env.envId, isNewEnv: true, softwareId: newEnvCtrl.selected_sw.id})" ng-disabled="!newEnvCtrl.newEnvForm.$valid">{{'NEWENV_START | translate: newEnvCtrl }}</button>
+		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'NEWENV_CANCEL' | translate: newEnvCtrl }}</button>
+		<button type="submit" class="btn btn-primary" ui-sref="wf-s.emulator({envId: newEnvCtrl.selected_env.envId, isNewEnv: true, softwareId: newEnvCtrl.selected_sw.id})" ng-disabled="!newEnvCtrl.newEnvForm.$valid">{{'NEWENV_START' | translate: newEnvCtrl }}</button>
 	</div>
 </form>
