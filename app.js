@@ -30,13 +30,29 @@
 		// German
 		$translateProvider.translations('en', {
 			CHOOSE_ENV_PROPOSAL: '[Configure environment]',
-			CHOOSE_ENV_EDIT: '[Edit description]'
+			CHOOSE_ENV_EDIT: '[Edit description]',
+			
+			ACTIONS_L: 'Actions',
+			ACTIONS_RESTART: 'Restart',
+			ACTIONS_SCREENSHOT: 'Screenshot',
+			ACTIONS_STOP: 'Stop',
+			ACTIONS_ENV: 'Environment',
+			ACTIONS_CHANGES: 'Changes',
+			ACTIONS_SAVE: 'save'
 		});
 
 		// English
 		$translateProvider.translations('de', {
 			CHOOSE_ENV_PROPOSAL: '[Umgebung konfigurieren]',
-			CHOOSE_ENV_EDIT: '[Beschreibung bearbeiten]'
+			CHOOSE_ENV_EDIT: '[Beschreibung bearbeiten]',
+			
+			ACTIONS_L: 'Aktionen',
+			ACTIONS_RESTART: 'Neustarten',
+			ACTIONS_SCREENSHOT: 'Screenshot',
+			ACTIONS_STOP: 'Beenden',
+			ACTIONS_ENV: 'Umgebung',
+			ACTIONS_CHANGES: 'Änderungen',
+			ACTIONS_SAVE: 'speichern'
 		});
 
 		// escape HTML in the translation

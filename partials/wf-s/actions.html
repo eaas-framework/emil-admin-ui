@@ -1,10 +1,10 @@
 <div class="panel panel-default">
-	<div id="actionsHeading" class="panel-heading">Aktionen</div>
+	<div id="actionsHeading" class="panel-heading">{{'ACTIONS_L' | translate: actionsCtrl}}</div>
 
 	<div id="actionsBtnGroup" class="btn-group-vertical" role="group">
-		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.screenshot()">Screenshot</button>
-		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.restartEmulator()">Neustarten</button>
-		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.stopEmulator()">Beenden</button>
-		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.openSaveEnvironmentDialog()">{{actionsCtrl.isNewEnv ? 'Umgebung' : 'Änderungen'}} speichern</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.screenshot()">{{'ACTIONS_SCREENSHOT' | translate: actionsCtrl}}</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.restartEmulator()">{{'ACTIONS_RESTART' | translate: actionsCtrl}}</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.stopEmulator()">{{'ACTIONS_STOP' | translate: actionsCtrl}}</button>
+		<button type="submit" class="btn btn-default" ng-click="actionsCtrl.openSaveEnvironmentDialog()">{{actionsCtrl.isNewEnv ? '{{'ACTIONS_ENV' | translate: actionsCtrl}}' : '{{'ACTIONS_CHANGES' | translate: actionsCtrl}}'}} {{'ACTIONS_SAVE' | translate: actionsCtrl}}</button>
 	</div>
 </div>
