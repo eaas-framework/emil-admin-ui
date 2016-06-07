@@ -1,14 +1,14 @@
-<h1 class="m-t-0">Objektcharakterisierung</h1>
+<h1 class="m-t-0">{{'CHAR_L' | translate: editObjectCharacterizationCtrl }}</h1>
 
 <div style="text-align: right; margin-bottom: 15px;">
 	<div style="display: inline-block;">
 		<button type="submit" class="btn btn-default" ng-click="editObjectCharacterizationCtrl.automaticCharacterization()">
-		<span class="glyphicon glyphicon-cloud-download"></span> Automatische Charakterisierung</button>
+		<span class="glyphicon glyphicon-cloud-download"></span> {{'CHAR_AUT' | translate: editObjectCharacterizationCtrl }}</button>
 	</div>
 
 	<div style="display: inline-block;">
 		<button type="submit" class="btn btn-default" ng-click="editObjectCharacterizationCtrl.openAddEnvDialog()">
-		<span style="color: green" class="glyphicon glyphicon-plus"></span> Umgebung hinzufügen</button>
+		<span style="color: green" class="glyphicon glyphicon-plus"></span> {{'CHAR_ADD' | translate: editObjectCharacterizationCtrl }}</button>
 	</div>
 </div>
 
@@ -23,8 +23,8 @@
 <br>
 
 <div style="text-align: right;">
-	<button class="btn btn-primary" type="button" ng-click="editObjectCharacterizationCtrl.saveCharacterization()">Speichern</button>
-	<button class="btn btn-default" type="button" ui-sref="wf-s.standard-envs-overview">Abbrechen</button>
+	<button class="btn btn-primary" type="button" ng-click="editObjectCharacterizationCtrl.saveCharacterization()">{{'CHAR_SAVE' | translate: editObjectCharacterizationCtrl }}</button>
+	<button class="btn btn-default" type="button" ui-sref="wf-s.standard-envs-overview">{{'CHAR_CANCEL' | translate: editObjectCharacterizationCtrl }}</button>
 </div>
 
 <div class="fullscreen-overlay-spinner">

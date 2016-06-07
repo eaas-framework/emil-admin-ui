@@ -1,10 +1,10 @@
-<h1 class="m-t-0">Standardumgebung erstellen</h1>
+<h1 class="m-t-0">{{'NEWENV_L' | translate: newEnvCtrl }}</h1>
 
 <form id="newEnvForm" name="newEnvCtrl.newEnvForm">
 	<div class="form-group">
-		<label>Basisumgebung</label>
-		<ui-select ng-model="newEnvCtrl.selected_env" theme="bootstrap" style="width: 350px;" title="Wählen oder suchen sie eine Umgebung..." required>
-			<ui-select-match placeholder="Wählen oder suchen sie eine Umgebung...">{{$select.selected.title}}</ui-select-match>
+		<label>{{'NEWENV_BASE' | translate: newEnvCtrl }}</label>
+		<ui-select ng-model="newEnvCtrl.selected_env" theme="bootstrap" style="width: 350px;" title="{{'NEWENV_SELECT_ENV' | translate: newEnvCtrl }}" required>
+			<ui-select-match placeholder="{{'NEWENV_SELECT_ENV' | translate: newEnvCtrl }}">{{$select.selected.title}}</ui-select-match>
 			<ui-select-choices repeat="env in newEnvCtrl.envs | filter: $select.search">
 				<span ng-bind-html="env.title | highlight: $select.search"></span>
 			</ui-select-choices>
@@ -12,9 +12,9 @@
 	</div>
 	
 	<div class="form-group">
-		<label>Software</label>
-		<ui-select ng-model="newEnvCtrl.selected_sw" theme="bootstrap" style="width: 350px;" title="Wählen oder suchen sie eine Software...">
-			<ui-select-match placeholder="Wählen oder suchen sie eine Software...">{{$select.selected.label}}</ui-select-match>
+		<label>{{'NEWENV_SW | translate: newEnvCtrl }}</label>
+		<ui-select ng-model="newEnvCtrl.selected_sw" theme="bootstrap" style="width: 350px;" title="{{'NEWENV_SELECT_SW' | translate: newEnvCtrl }}">
+			<ui-select-match placeholder="{{'NEWENV_SELECT_SW' | translate: newEnvCtrl }}">{{$select.selected.label}}</ui-select-match>
 			<ui-select-choices repeat="sw in newEnvCtrl.software | filter: $select.search">
 				<span ng-bind-html="sw.label | highlight: $select.search"></span>
 			</ui-select-choices>
@@ -22,7 +22,7 @@
 	</div>
 
 	<div style="text-align: right;">
-		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">Abbrechen</button>
-		<button type="submit" class="btn btn-primary" ui-sref="wf-s.emulator({envId: newEnvCtrl.selected_env.envId, isNewEnv: true, softwareId: newEnvCtrl.selected_sw.id})" ng-disabled="!newEnvCtrl.newEnvForm.$valid">Starten</button>
+		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'NEWENV_CANCEL | translate: newEnvCtrl }}</button>
+		<button type="submit" class="btn btn-primary" ui-sref="wf-s.emulator({envId: newEnvCtrl.selected_env.envId, isNewEnv: true, softwareId: newEnvCtrl.selected_sw.id})" ng-disabled="!newEnvCtrl.newEnvForm.$valid">{{'NEWENV_START | translate: newEnvCtrl }}</button>
 	</div>
 </form>

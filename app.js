@@ -29,8 +29,13 @@
 
 		// German
 		$translateProvider.translations('en', {
+			CHOOSE_ENV_L: 'Environments',
+			CHOOSE_ENV_ADD: 'New environment',
+			CHOOSE_ENV_SEARCH: 'Search...',
 			CHOOSE_ENV_PROPOSAL: '[Configure environment]',
 			CHOOSE_ENV_EDIT: '[Edit description]',
+			CHOOSE_ENV_DEL: '[Delete]',
+			CHOOSE_ENV_VER: 'Version',
 			
 			ACTIONS_L: 'Actions',
 			ACTIONS_RESTART: 'Restart',
@@ -38,13 +43,62 @@
 			ACTIONS_STOP: 'Stop',
 			ACTIONS_ENV: 'Environment',
 			ACTIONS_CHANGES: 'Changes',
-			ACTIONS_SAVE: 'save'
+			ACTIONS_SAVE: 'save',
+				
+			ADDENV_L: 'Add environment',
+			ADDENV_SEARCH: 'Select an environment...',
+			ADDENV_ADD: "Add",
+			ADDENV_CANCEL: "Cancel",
+			
+			BASE_SHOW_MENU: 'Show menu',
+			BASE_MENU_L: 'Menu',
+			BASE_MENU_HELP: 'Help',
+			
+			EDITENV_L: 'Edit Environment',
+			EDITENV_NAME: 'Name',
+			EDITENV_NAME_PH: 'Environment name',
+			EDITENV_DESC: 'Description',
+			EDITENV_DESC_PH: 'Environment description',
+			EDITENV_EMULATOR: 'Emulator',
+			EDITENV_OS: 'OS',
+			EDITENV_SW: 'Software',
+			EDITENV_SAVE: 'Save',
+			EDITENV_CANCEL: 'Cancel',
+				
+			CHAR_L: 'Characterize object', 
+			CHAR_AUT: 'Automated characterization',
+			CHAR_ADD: 'Add environment',
+			CHAR_SAVE: 'Save',
+			CHAR_CANCEL: 'Cancel',
+				
+			EMU_TITLE: 'Preparing emulation session',
+
+			NEWENV_L: 'Create environment',
+			NEWENV_BASE: 'Base environment',
+			NEWENV_SW: 'Software',
+			NEWENV_SELECT_ENV: 'Select environment...',
+			NEWENV_SELECT_SW: 'Select software...',
+			NEWENV_START: 'Start',
+			NEWENV_CANCEL: 'Cancel',
+			
+			SAVEENV_L: 'Save changes',
+			SAVEENV_NAME: 'Name',
+			SAVEENV_NAME_PH: 'Envirnment name',
+			SAVEENV_DESC: 'Decription',
+			SAVEENV_DESC_PH: 'Description of changes..',
+			SAVEENV_SAVE: 'Save',
+			SAVEENV_CANCEL: 'Cancel',
 		});
 
 		// English
 		$translateProvider.translations('de', {
+			CHOOSE_ENV_L: 'Standardumgebungen',
+			CHOOSE_ENV_ADD: 'Neue Umgebung anlegen',
+			CHOOSE_ENV_SEARCH: 'Eintippen zum Suchen...',
 			CHOOSE_ENV_PROPOSAL: '[Umgebung konfigurieren]',
 			CHOOSE_ENV_EDIT: '[Beschreibung bearbeiten]',
+			CHOOSE_ENV_DEL: '[Löschen]',
+			CHOOSE_ENV_VER: 'Version',
 			
 			ACTIONS_L: 'Aktionen',
 			ACTIONS_RESTART: 'Neustarten',
@@ -52,7 +106,51 @@
 			ACTIONS_STOP: 'Beenden',
 			ACTIONS_ENV: 'Umgebung',
 			ACTIONS_CHANGES: 'Änderungen',
-			ACTIONS_SAVE: 'speichern'
+			ACTIONS_SAVE: 'speichern',
+			
+			ADDENV_L: 'Umgebung hinzufügen',
+			ADDENV_SEARCH: 'Wählen oder suchen sie eine Umgebung...',
+			DDENV_ADD: "Hinzufügen",
+			ADDENV_CANCEL: "Abbrechen",
+			
+			BASE_SHOW_MENU: 'Menu anzeigen',
+			BASE_MENU_L: 'Menu',
+			BASE_MENU_HELP: 'Hilfe',
+			
+			EDITENV_L: 'Umgebung bearbeiten',
+			EDITENV_NAME: 'Name',
+			EDITENV_NAME_PH: 'Name der Umgebung..',
+			EDITENV_DESC: 'Beschreibung',
+			EDITENV_DESC_PH: 'Beschreibung der Umgebung..',
+			EDITENV_EMULATOR: 'Emulator',
+			EDITENV_OS: 'OS',
+			EDITENV_SW: 'Software',
+			EDITENV_SAVE: 'Speichern',
+			EDITENV_CANCEL: 'Abbrechen',
+			
+			CHAR_L: 'Objektcharakterisierung',
+			CHAR_AUT: 'Automatische Charakterisierung',
+			CHAR_ADD: 'Umgebung hinzufügen',
+			CHAR_SAVE: 'Speichern',
+			CHAR_CANCEL: 'Abbrechen',
+			
+			EMU_TITLE: 'Das Emulationsystem wird gestartet...',
+			
+			NEWENV_L: 'Standardumgebung erstellen',
+			NEWENV_BASE: 'Basisumgebung',
+			NEWENV_SW: 'Software',
+			NEWENV_SELECT_ENV: 'Wählen oder suchen sie eine Umgebung...',
+			NEWENV_SELECT_SW: 'Wählen oder suchen sie eine Software...',
+			NEWENV_START: 'Starten',
+			NEWENV_CANCEL: 'Abbrechen',
+			
+			SAVEENV_L: 'Änderungen speichern',
+			SAVEENV_NAME: 'Name',
+			SAVEENV_NAME_PH: 'Name der Umgebung..',
+			SAVEENV_DESC: 'Beschreibung',
+			SAVEENV_DESC_PH: 'Beschreibung der Änderungen..',
+			SAVEENV_SAVE: 'Speichern',
+			SAVEENV_CANCEL: 'Abbrechen',
 		});
 
 		// escape HTML in the translation

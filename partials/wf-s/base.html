@@ -9,16 +9,16 @@
 				<div class="navbar navbar-default" role="navigation">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">
-							<span class="sr-only">Menü anzeigen</span>
+							<span class="sr-only">{{'BASE_SHOW_MENU' | translate: baseCtrl }}</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<span class="visible-xs navbar-brand">Menu</span>
+						<span class="visible-xs navbar-brand">{{'BASE_MENU_L' | translate: baseCtrl }}</span>
 					</div>
 					<div class="navbar-collapse collapse sidebar-navbar-collapse" collapse="isCollapsed">
 						<ul class="nav navbar-nav">
-							<li><a ng-click="baseCtrl.open()" href="">Hilfe</a></li>
+							<li><a ng-click="baseCtrl.open()" href="">{{'BASE_MENU_HELP'| translate: baseCtrl }}</a></li>
 						</ul>
 					</div>
 				</div>
