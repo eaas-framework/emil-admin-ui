@@ -118,7 +118,7 @@
 			
 			ADDENV_L: 'Umgebung hinzufügen',
 			ADDENV_SEARCH: 'Wählen oder suchen sie eine Umgebung...',
-			DDENV_ADD: "Hinzufügen",
+			ADDENV_ADD: "Hinzufügen",
 			ADDENV_CANCEL: "Abbrechen",
 			
 			BASE_SHOW_MENU: 'Menu anzeigen',
@@ -497,7 +497,7 @@
 							
 							vm.removeEnvironment = function(env) {
 								if (objEnvironments.data.environments.length === 1) {
-									growl.error($translate.instant('JS_ENV_ZERO'));
+									growl.error($translate.instant('JS_ENV_ERR_ZERO'));
 									return;
 								}
 								
