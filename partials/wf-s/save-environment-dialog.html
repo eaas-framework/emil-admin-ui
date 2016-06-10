@@ -4,7 +4,7 @@
 
 <div class="modal-body">
 	<form id="editEnvForm" name="openSaveEnvironmentDialogCtrl.editEnvForm">
-		<div class="form-group" ng-if="openSaveEnvironmentDialogCtrl.isNewEnv">
+		<div class="form-group" ng-if="openSaveEnvironmentDialogCtrl.isNewEnv || openSaveEnvironmentDialogCtrl.isNewObjectEnv">
 			<label>{{'SAVEENV_NAME' | translate: openSaveEnvironmentDialogCtrl }}</label>
 			<input type="text" class="form-control" ng-model="openSaveEnvironmentDialogCtrl.envName" placeholder="{{'SAVEENV_NAME_PH' | translate: openSaveEnvironmentDialogCtrl }}" required>
 		</div>

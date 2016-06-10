@@ -10,6 +10,7 @@
 	var getAllEnvsUrl = "getEmilEnvironments";
 	var configureEnv = "configureEnv?envId={0}";
 	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}";
+	var startEnvWithDigitalObjectUrl = "startEnvWithDigitalObject?objectId={0}&envId={1}";
 	var stopUrl = "stop?sessionId={0}";
 	var screenshotUrl = "screenshot?sessionId={0}";
 	var saveNewEnvironment = "saveNewEnvironment";
@@ -41,9 +42,9 @@
 			ACTIONS_RESTART: 'Restart',
 			ACTIONS_SCREENSHOT: 'Screenshot',
 			ACTIONS_STOP: 'Stop',
-			ACTIONS_ENV: 'Environment',
-			ACTIONS_CHANGES: 'Changes',
-			ACTIONS_SAVE: 'save',
+			ACTIONS_ENV: 'Save Environment',
+			ACTIONS_CHANGES: 'Save Changes',
+			ACTIONS_OBJ_ENV: 'Create Object Environment',
 				
 			ADDENV_L: 'Add environment',
 			ADDENV_SEARCH: 'Select an environment...',
@@ -112,9 +113,9 @@
 			ACTIONS_RESTART: 'Neustarten',
 			ACTIONS_SCREENSHOT: 'Screenshot',
 			ACTIONS_STOP: 'Beenden',
-			ACTIONS_ENV: 'Umgebung',
-			ACTIONS_CHANGES: 'Änderungen',
-			ACTIONS_SAVE: 'speichern',
+			ACTIONS_ENV: 'Umgebung speichern',
+			ACTIONS_CHANGES: 'Änderungen speichern',
+			ACTIONS_OBJ_ENV: 'Neue Objekt Umgebung',
 			
 			ADDENV_L: 'Umgebung hinzufügen',
 			ADDENV_SEARCH: 'Wählen oder suchen sie eine Umgebung...',
@@ -179,7 +180,8 @@
 
 		// automatically choose best language for user
 		$translateProvider.determinePreferredLanguage();
-
+		// $translateProvider.preferredLanguage('en');
+		
 		// Add a global AJAX error handler
 		$httpProvider.interceptors.push(function($q, $injector) {
 			return {
@@ -335,7 +337,9 @@
 				params: {
 					envId: "-1",
 					isNewEnv: false,
-					softwareId: null
+					softwareId: null,
+					isNewObjectEnv: false,
+					objectId: null
 				},
 				resolve: {
 					configureEnv: function($http, $stateParams, localConfig) {
@@ -343,7 +347,10 @@
 						
 						if ($stateParams.isNewEnv) {
 							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithSoftwarePackage, $stateParams.envId, $stateParams.softwareId))
-						} else {
+						} else if ($stateParams.isNewObjectEnv) {
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithDigitalObjectUrl, $stateParams.objectId, $stateParams.envId))
+						}
+						else {
 							result = $http.get(localConfig.data.eaasBackendURL + formatStr(configureEnv, $stateParams.envId));
 						}
 						
@@ -353,7 +360,11 @@
 				views: {
 					'wizard': {
 						templateUrl: "partials/wf-s/emulator.html",
-						controller: function ($scope, $sce, configureEnv) {
+						controller: function ($scope, $sce, $state, configureEnv, growl) {
+							if (configureEnv.data.status === "1") {
+								$state.go('error', {errorMsg: {title: "Emulation Error " + configureEnv.data.status, message: configureEnv.data.message}});
+								return;
+							}
 							this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
 						},
 						controllerAs: "startEmuCtrl"
@@ -362,7 +373,7 @@
 						templateUrl: 'partials/wf-s/actions.html',
 						controller: function ($scope, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $translate) {							
 							this.isNewEnv = $stateParams.isNewEnv;
-						
+							this.isNewObjectEnv = $stateParams.isNewObjectEnv;	
 							this.stopEmulator = function() {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id)).then(function(response) {
 									if (response.data.status === "0") {
@@ -391,7 +402,7 @@
 									templateUrl: 'partials/wf-s/save-environment-dialog.html',
 									controller: function($scope) {
 										this.isNewEnv = $stateParams.isNewEnv;
-										
+										this.isNewObjectEnv = $stateParams.isNewObjectEnv;	
 										this.saveEnvironment = function() {
 											var postResult = null;											
 											
@@ -401,7 +412,17 @@
 													envId: $stateParams.envId,
 													title: this.envName,
 													description: this.envDescription,
-													softwareId: $stateParams.softwareId													
+													softwareId: $stateParams.softwareId,	
+													isObjectEnvironment: false													
+												});
+											} else if ($stateParams.isNewObjectEnv) {
+												postResult = $http.post(localConfig.data.eaasBackendURL + saveNewEnvironment, {
+													sessionId: configureEnv.data.id,
+													envId: $stateParams.envId,
+													title: this.envName,
+													description: this.envDescription,
+													softwareId: $stateParams.softwareId,
+													isObjectEnvironment: true													
 												});
 											} else {
 												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {
@@ -447,6 +468,7 @@
 							var vm = this;
 							
 							vm.objEnvironments = objEnvironments.data.environments;
+							vm.objectId = $stateParams.objectId;
 							
 							vm.automaticCharacterization = function() {
 								if (window.confirm($translate.instant('JS_START_CHAR'))) {
