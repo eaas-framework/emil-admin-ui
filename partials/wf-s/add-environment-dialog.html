@@ -1,10 +1,10 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{'ADDENV_L' | translate: addEnvDialogCtrl}}</h3>
+	<h3 class="modal-title">{{'ADDENV_L' | translate}}</h3>
 </div>
 
 <div class="modal-body">
-	<ui-select id="chooseCustomEnvSelect" ng-model="addEnvDialogCtrl.newEnv" theme="bootstrap" title="{{'ADDENV_SEARCH' | translate: addEnvDialogCtrl}}" required>
-		<ui-select-match placeholder="{{'ADDENV_SEARCH' | translate: addEnvDialogCtrl}}">{{$select.selected.title}}</ui-select-match>
+	<ui-select id="chooseCustomEnvSelect" ng-model="addEnvDialogCtrl.newEnv" theme="bootstrap" title="{{'ADDENV_SEARCH' | translate}}" required>
+		<ui-select-match placeholder="{{'ADDENV_SEARCH' | translate}}">{{$select.selected.title}}</ui-select-match>
 		<ui-select-choices repeat="env in addEnvDialogCtrl.environments | filter: $select.search">
 			<span ng-bind-html="env.title | highlight: $select.search"></span>
 		</ui-select-choices>
@@ -12,6 +12,6 @@
 </div>
 
 <div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="addEnvDialogCtrl.addEnvironment()" ng-disabled="addEnvDialogCtrl.newEnv == null">{{'ADDENV_ADD' | translate: addEnvDialogCtrl}}</button>
-	<button class="btn btn-default" type="button" ng-click="$close()">{{'ADDENV_CANCEL' | translate: addEnvDialogCtrl}}</button>
+	<button class="btn btn-primary" type="button" ng-click="addEnvDialogCtrl.addEnvironment()" ng-disabled="addEnvDialogCtrl.newEnv == null">{{'ADDENV_ADD' | translate}}</button>
+	<button class="btn btn-default" type="button" ng-click="$close()">{{'ADDENV_CANCEL' | translate}}</button>
 </div>

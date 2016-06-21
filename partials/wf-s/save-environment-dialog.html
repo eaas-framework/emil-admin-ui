@@ -1,22 +1,22 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{'SAVEENV_L' | translate: openSaveEnvironmentDialogCtrl }}</h3>
+	<h3 class="modal-title">{{'SAVEENV_L' | translate}}</h3>
 </div>
 
 <div class="modal-body">
 	<form id="editEnvForm" name="openSaveEnvironmentDialogCtrl.editEnvForm">
 		<div class="form-group" ng-if="openSaveEnvironmentDialogCtrl.isNewEnv || openSaveEnvironmentDialogCtrl.isNewObjectEnv">
-			<label>{{'SAVEENV_NAME' | translate: openSaveEnvironmentDialogCtrl }}</label>
-			<input type="text" class="form-control" ng-model="openSaveEnvironmentDialogCtrl.envName" placeholder="{{'SAVEENV_NAME_PH' | translate: openSaveEnvironmentDialogCtrl }}" required>
+			<label>{{'SAVEENV_NAME' | translate}}</label>
+			<input type="text" class="form-control" ng-model="openSaveEnvironmentDialogCtrl.envName" placeholder="{{'SAVEENV_NAME_PH' | translate}}" required>
 		</div>
 	
 		<div class="form-group">
-			<label>{{'SAVEENV_DESC' | translate: openSaveEnvironmentDialogCtrl }}</label>
-			<textarea class="form-control" rows="3" ng-model="openSaveEnvironmentDialogCtrl.envDescription" placeholder="{{'SAVEENV_DESC_PH' | translate: openSaveEnvironmentDialogCtrl }}" required></textarea>
+			<label>{{'SAVEENV_DESC' | translate}}</label>
+			<textarea class="form-control" rows="3" ng-model="openSaveEnvironmentDialogCtrl.envDescription" placeholder="{{'SAVEENV_DESC_PH' | translate}}" required></textarea>
 		</div>
 	</form>
 </div>
 
 <div class="modal-footer">
-	<button class="btn btn-primary" type="button" ng-click="openSaveEnvironmentDialogCtrl.saveEnvironment()" ng-disabled="!openSaveEnvironmentDialogCtrl.editEnvForm.$valid">{{'SAVEENV_SAVE' | translate: openSaveEnvironmentDialogCtrl }}</button>
-	<button class="btn btn-default" type="button" ng-click="$close()">{{'SAVEENV_CANCEL' | translate: openSaveEnvironmentDialogCtrl }}</button>
+	<button class="btn btn-primary" type="button" ng-click="openSaveEnvironmentDialogCtrl.saveEnvironment()" ng-disabled="!openSaveEnvironmentDialogCtrl.editEnvForm.$valid">{{'SAVEENV_SAVE' | translate}}</button>
+	<button class="btn btn-default" type="button" ng-click="$close()">{{'SAVEENV_CANCEL' | translate}}</button>
 </div>

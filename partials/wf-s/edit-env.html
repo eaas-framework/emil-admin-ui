@@ -1,27 +1,27 @@
-<h1 class="m-t-0">{{'EDITENV_L' | translate: editEnvCtrl }}</h1>
+<h1 class="m-t-0">{{'EDITENV_L' | translate}}</h1>
 
 <form id="editEnvForm" name="editEnvCtrl.editEnvForm">
 	<div class="form-group">
-		<label>{{'EDITENV_NAME' | translate: editEnvCtrl }}</label>
-		<input type="text" class="form-control" ng-model="editEnvCtrl.envName" placeholder="{{'EDITENV_NAME_PH' | translate: editEnvCtrl }}" required>
+		<label>{{'EDITENV_NAME' | translate}}</label>
+		<input type="text" class="form-control" ng-model="editEnvCtrl.envName" placeholder="{{'EDITENV_NAME_PH' | translate}}" required>
 	</div>
 
 	<div class="form-group">
-		<label>{{'EDITENV_DESC' | translate: editEnvCtrl }}</label>
-		<textarea class="form-control" rows="3" ng-model="editEnvCtrl.envDescription" placeholder="{{'EDITENV_DESC_PH' | translate: editEnvCtrl }}" required></textarea>
+		<label>{{'EDITENV_DESC' | translate}}</label>
+		<textarea class="form-control" rows="3" ng-model="editEnvCtrl.envDescription" placeholder="{{'EDITENV_DESC_PH' | translate}}" required></textarea>
 	</div>
 
-	<p><b>{{'EDITENV_EMULATOR' | translate: editEnvCtrl }}:</b> {{editEnvCtrl.env.emulator}} </p>
-	<p><b>{{'EDITENV_OS' | translate: editEnvCtrl }}:</b> {{editEnvCtrl.env.os}} </p>
+	<p><b>{{'EDITENV_EMULATOR' | translate}}:</b> {{editEnvCtrl.env.emulator}} </p>
+	<p><b>{{'EDITENV_OS' | translate}}:</b> {{editEnvCtrl.env.os}} </p>
 	<div ng-show="editEnvCtrl.env.installedSoftwareIds.length > 0">
-		<p id="editEnvSoftwareListLabel"><b>{{'EDITENV_SW' | translate: editEnvCtrl }}:</b></p>
+		<p id="editEnvSoftwareListLabel"><b>{{'EDITENV_SW' | translate}}:</b></p>
 		<ul id="editEnvSoftwareList">
 			<li ng-repeat="softwareId in editEnvCtrl.env.installedSoftwareIds">{{softwareId}}</li>
 		</ul>
 	</div>
 
 	<div style="text-align: right;">
-		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'EDITENV_CANCEL' | translate: editEnvCtrl }}</button>
-		<button type="submit" class="btn btn-primary" ng-click="editEnvCtrl.saveEdit()" ui-sref="wf-s.standard-envs-overview" ng-disabled="!editEnvCtrl.editEnvForm.$valid">{{'EDITENV_SAVE' | translate: editEnvCtrl }}</button>
+		<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'EDITENV_CANCEL' | translate}}</button>
+		<button type="submit" class="btn btn-primary" ng-click="editEnvCtrl.saveEdit()" ui-sref="wf-s.standard-envs-overview" ng-disabled="!editEnvCtrl.editEnvForm.$valid">{{'EDITENV_SAVE' | translate}}</button>
 	</div>
 </form>
