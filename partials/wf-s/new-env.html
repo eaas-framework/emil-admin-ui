@@ -3,22 +3,26 @@
 <form id="newEnvForm" name="newEnvCtrl.newEnvForm">
 	<div class="form-group">
 		<label>{{'NEWENV_BASE' | translate}}</label>
-		<ui-select ng-model="newEnvCtrl.selected_env" theme="bootstrap" style="width: 350px;" title="{{'NEWENV_SELECT_ENV' | translate}}" required>
-			<ui-select-match placeholder="{{'NEWENV_SELECT_ENV' | translate}}">{{$select.selected.title}}</ui-select-match>
-			<ui-select-choices repeat="env in newEnvCtrl.envs | filter: $select.search">
-				<span ng-bind-html="env.title | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
+		<div style="max-width: 375px;">
+			<ui-select ng-model="newEnvCtrl.selected_env" theme="bootstrap" title="{{'NEWENV_SELECT_ENV' | translate}}" required>
+				<ui-select-match placeholder="{{'NEWENV_SELECT_ENV' | translate}}">{{$select.selected.title}}</ui-select-match>
+				<ui-select-choices repeat="env in newEnvCtrl.envs | filter: $select.search">
+					<span ng-bind-html="env.title | highlight: $select.search"></span>
+				</ui-select-choices>
+			</ui-select>
+		</div>
 	</div>
 	
 	<div class="form-group">
 		<label>{{'NEWENV_SW' | translate}}</label>
-		<ui-select ng-model="newEnvCtrl.selected_sw" theme="bootstrap" style="width: 350px;" title="{{'NEWENV_SELECT_SW' | translate}}">
-			<ui-select-match placeholder="{{'NEWENV_SELECT_SW' | translate}}">{{$select.selected.label}}</ui-select-match>
-			<ui-select-choices repeat="sw in newEnvCtrl.software | filter: $select.search">
-				<span ng-bind-html="sw.label | highlight: $select.search"></span>
-			</ui-select-choices>
-		</ui-select>
+		<div style="max-width: 375px;">
+			<ui-select ng-model="newEnvCtrl.selected_sw" theme="bootstrap" title="{{'NEWENV_SELECT_SW' | translate}}">
+				<ui-select-match placeholder="{{'NEWENV_SELECT_SW' | translate}}">{{$select.selected.label}}</ui-select-match>
+				<ui-select-choices repeat="sw in newEnvCtrl.software | filter: $select.search">
+					<span ng-bind-html="sw.label | highlight: $select.search"></span>
+				</ui-select-choices>
+			</ui-select>
+		</div>
 	</div>
 
 	<div style="text-align: right;">

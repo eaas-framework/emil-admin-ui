@@ -1,0 +1,33 @@
+<h1 class="m-t-0">{{'SW_OVERVIEW_HEADER' | translate}}</h1>
+
+<table id="standard-envs-overview-table" st-table="displaySw" st-safe-src="swOverviewCtrl.softwareList" class="table">
+	<thead>	
+		<tr>			
+			<th colspan="5">
+				<div style="text-align: right; margin-bottom: 15px;"><button type="submit" class="btn btn-default" ui-sref="wf-i.sw-ingest"><span style="color: green" class="glyphicon glyphicon-plus"></span> {{'SW_OVERVIEW_ADD' | translate}}</button></div>
+				<input st-search="" class="form-control" placeholder="{{'SW_OVERVIEW_SEARCH' | translate}}" type="text"/><br>
+			</th>
+		</tr>	
+	</thead>
+	
+	<tbody>
+		<tr ng-repeat="row in displaySw">
+			<td>
+				<b>{{row.label}}</b>
+				<a ui-sref="wf-i.sw-ingest({swId: row.id})">{{'SW_OVERVIEW_SW_EDIT' | translate}}</a>
+				<!-- <a href="#" ng-click="swOverviewCtrl.deleteEnvironment(row.id)">{{'SW_OVERVIEW_SW_DEL' | translate}}</a>
+				<br>
+				{{row.description}}
+				 -->
+			</td>
+		</tr>
+	</tbody>
+	
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-pagination="" st-items-by-page="4" st-displayed-pages="7"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>

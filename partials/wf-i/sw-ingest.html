@@ -1,0 +1,40 @@
+<h3 class="m-t-0">{{'SW_INGEST_HEADER' | translate}}</h3> <br>
+
+<label>{{'SW_INGEST_CHOOSE_OBJECT' | translate}}</label>
+<div style="max-width: 450px;">
+	<ui-select id="chooseObject" ng-model="swIngestCtrl.selectedObject" ng-disabled="!swIngestCtrl.isNewSoftware" theme="bootstrap" title="{{'SW_INGEST_CHOOSE_OBJECT_PH' | translate}}" required>
+		<ui-select-match placeholder="{{'SW_INGEST_CHOOSE_OBJECT_PH' | translate}}">{{$select.selected.title}}</ui-select-match>
+		<ui-select-choices repeat="obj in swIngestCtrl.objectList | filter: $select.search">
+			<b><span ng-bind-html="obj.title | highlight: $select.search"></span></b> <br>
+			<span ng-bind-html="obj.description | highlight: $select.search"></span>
+		</ui-select-choices>
+	</ui-select>
+</div>
+
+<br>
+
+<div class="form-group">
+	<label>{{'SW_INGEST_LICENSE_LBL' | translate}}</label>
+	<textarea class="form-control" rows="3" ng-model="swIngestCtrl.softwareObj.licenseInformation" placeholder="{{'SW_INGEST_LICENSE_PH' | translate}}" required></textarea>
+</div>
+
+<label>{{'SW_INGEST_NO_INSTANCES_LBL' | translate}}</label>
+<input type="number" class="form-control" ng-model="swIngestCtrl.softwareObj.allowedInstances">
+
+<br>
+
+<input-list list="swIngestCtrl.softwareObj.nativeFMTs" heading="{{'SW_INGEST_FMT_NATIVE_HEADER' | translate}}" list-empty-note="{{'SW_INGEST_FMT_NATIVE_EMPTY' | translate}}"
+			input-placeholder="{{'SW_INGEST_FMT_NATIVE_PH' | translate}}" add-button-text="{{'SW_INGEST_FMT_NATIVE_BUTTON' | translate}}"></input-list>
+
+<input-list list="swIngestCtrl.softwareObj.importFMTs" heading="{{'SW_INGEST_FMT_IMPORT_HEADER' | translate}}" list-empty-note="{{'SW_INGEST_FMT_IMPORT_EMPTY' | translate}}"
+			input-placeholder="{{'SW_INGEST_FMT_IMPORT_PH' | translate}}" add-button-text="{{'SW_INGEST_FMT_IMPORT_BUTTON' | translate}}"></input-list>
+
+<input-list list="swIngestCtrl.softwareObj.exportFMTs" heading="{{'SW_INGEST_FMT_EXPORT_HEADER' | translate}}" list-empty-note="{{'SW_INGEST_FMT_EXPORT_EMPTY' | translate}}"
+			input-placeholder="{{'SW_INGEST_FMT_EXPORT_PH' | translate}}" add-button-text="{{'SW_INGEST_FMT_EXPORT_BUTTON' | translate}}"></input-list>
+
+<br>
+
+<div style="text-align: right;">
+	<button type="button" class="btn btn-default" ui-sref="wf-i.sw-overview">{{'SW_INGEST_CANCEL_BUTTON' | translate}}</button>
+	<button type="button" class="btn btn-primary" ng-click="swIngestCtrl.save()" ng-disabled="!swIngestCtrl.selectedObject">{{'SW_INGEST_SAVE_BUTTON' | translate}}</button>
+</div>

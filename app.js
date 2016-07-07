@@ -158,6 +158,12 @@
 			BASE_MENU_L: 'Menu',
 			BASE_MENU_HELP: 'Hilfe',
 
+			SW_OVERVIEW_HEADER: 'Software',
+			SW_OVERVIEW_ADD: 'Neue Software anlegen',
+			SW_OVERVIEW_SEARCH: 'Eintippen zum Suchen...',
+			SW_OVERVIEW_SW_EDIT: '[Bearbeiten]',
+			SW_OVERVIEW_SW_DEL: '[Löschen]',
+
 			SW_INGEST_HEADER: 'Software Ingest',
 			SW_INGEST_CHOOSE_OBJECT: 'Objekt auswählen',
 			SW_INGEST_CHOOSE_OBJECT_PH: 'Wählen oder suchen sie ein Objekt...',
@@ -176,8 +182,9 @@
 			SW_INGEST_FMT_EXPORT_EMPTY: 'No Export FMTs added yet.',
 			SW_INGEST_FMT_EXPORT_PH: 'Export PUID...',
 			SW_INGEST_FMT_EXPORT_BUTTON: 'Add export PUID',
+			SW_INGEST_CANCEL_BUTTON: 'Abbrechen',
 			SW_INGEST_SAVE_BUTTON: 'Speichern',
-			
+
 			EDITENV_L: 'Umgebung bearbeiten',
 			EDITENV_NAME: 'Name',
 			EDITENV_NAME_PH: 'Name der Umgebung..',
@@ -260,49 +267,115 @@
 				},
 				controllerAs: "errorCtrl"
 			})
-			.state('software-ingest', {
-				url: "/software-ingest",
-				templateUrl: "partials/software-ingest.html",
+			.state('wf-i', {
+				abstract: true,
+				url: "/wf-i",
+				templateUrl: "partials/base.html",
 				resolve: {
 					localConfig: function($http) {
 						return $http.get("config.json");
-					},
-					objectList: function($http, localConfig) {
-						return $http.get(localConfig.data.eaasBackendURL + getObjectListURL);
 					}
 				},
-				controller: function($state, $stateParams, objectList) {
-					var vm = this;
-
-					vm.selectedObject = null;
-					vm.objectList = objectList.data.objects;
-
-					vm.nativeFMTs = [];
-					vm.importFMTs = [];
-					vm.exportFMTs = [];
-
-					vm.allowedInstances = 1;
-
-					vm.save = function() {
-						var result = {
-							objectId: vm.selectedObject.id,
-							licenseInformation: vm.license,
-							allowedInstances: vm.allowedInstances,
-							nativeFMTs: vm.nativeFMTs,
-							importFMTs: vm.importFMTs,
-							exportFMTs: vm.exportFMTs,
-						};
-
-						console.log(JSON.stringify(result));
-						// TODO save to REST
-					};
+				controller: function($uibModal) {
+					this.open = function() {
+						$uibModal.open({
+							animation: true,
+							templateUrl: 'partials/wf-s/help-emil-dialog.html'
+						});
+					}
 				},
-				controllerAs: "softwareIngestCtrl"
+				controllerAs: "baseCtrl"
+			})
+			.state('wf-i.sw-overview', {
+				url: "/sw-overview",
+				resolve: {
+					softwareList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					}
+				},
+				views: {
+					'wizard': {
+						templateUrl: 'partials/wf-i/sw-overview.html',
+						controller: function (softwareList) {
+							var vm = this;
+
+							if (softwareList.data.status !== "0") {
+								$state.go('error', {errorMsg: {title: "Load Environments Error " + softwareList.data.status, message: softwareList.data.message}});
+								return;
+							}
+
+							vm.softwareList = softwareList.data.descriptions;
+						},
+						controllerAs: "swOverviewCtrl"
+					}
+				}
+			})
+			.state('wf-i.sw-ingest', {
+				url: "/sw-ingest",
+				params: {
+					swId: "-1"
+				},
+				resolve: {
+					objectList: function($stateParams, $http, localConfig) {
+						// Don't fetch list for edit
+						if ($stateParams.swId != "-1") {
+							return null;
+						}
+
+						return $http.get(localConfig.data.eaasBackendURL + getObjectListURL);
+					},
+					softwareObj: function($stateParams, $http, localConfig) {
+						// return empty object for new software
+						// if ($stateParams.swId === "-1") {
+							return {
+								objectId: null,
+								licenseInformation: "",
+								allowedInstances: 1,
+								nativeFMTs: [],
+								importFMTs: [],
+								exportFMTs: [],
+							}
+						// }
+
+						// TODO if $stateParams.swId != "-1" get from REST for edit
+						// return $http.get(localConfig.data.eaasBackendURL + getSoftwareObjectURL);
+					},
+				},
+				views: {
+					'wizard': {
+						templateUrl: 'partials/wf-i/sw-ingest.html',
+						controller: function ($stateParams, $state, objectList, softwareObj) {
+							var vm = this;
+
+							vm.isNewSoftware = $stateParams.swId === "-1";
+
+							if (vm.isNewSoftware) {
+								vm.selectedObject = null;
+								vm.objectList = objectList.data.objects;
+							} else {
+								vm.selectedObject = {id: $stateParams.swId, title: $stateParams.swId};
+								vm.objectList = [vm.selectedObject];
+							}
+
+							vm.softwareObj = softwareObj;
+
+							vm.save = function() {
+								vm.softwareObj.objectId = vm.selectedObject.id;
+
+								// TODO save to REST
+								console.log(JSON.stringify(vm.softwareObj));
+
+								$state.go('wf-i.sw-overview', {}, {reload: true});
+							};
+						},
+						controllerAs: "swIngestCtrl"
+					}
+				}
 			})
 			.state('wf-s', {
 				abstract: true,
 				url: "/wf-s",
-				templateUrl: "partials/wf-s/base.html",
+				templateUrl: "partials/base.html",
 				resolve: {
 					localConfig: function($http) {
 						return $http.get("config.json");
