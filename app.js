@@ -88,6 +88,7 @@
 			SW_INGEST_FMT_EXPORT_PH: 'Export PUID...',
 			SW_INGEST_FMT_EXPORT_BUTTON: 'Add export PUID',
 			SW_INGEST_SAVE_BUTTON: 'Save',
+			SW_INGEST_CANCEL_BUTTON: 'Cancel',
 			
 			SW_OVERVIEW_HEADER: 'Software',
 			SW_OVERVIEW_ADD: 'Add new software',
