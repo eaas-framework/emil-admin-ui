@@ -66,6 +66,8 @@
 			BASE_SHOW_MENU: 'Show menu',
 			BASE_MENU_L: 'Menu',
 			BASE_MENU_HELP: 'Help',
+			BASE_MENU_ENVS: 'Environments',
+			BASE_MENU_SW: 'Software',
 
 			SW_INGEST_HEADER: 'Software Ingest',
 			SW_INGEST_CHOOSE_OBJECT: 'Choose Object',
@@ -87,6 +89,12 @@
 			SW_INGEST_FMT_EXPORT_BUTTON: 'Add export PUID',
 			SW_INGEST_SAVE_BUTTON: 'Save',
 			
+			SW_OVERVIEW_HEADER: 'Software',
+			SW_OVERVIEW_ADD: 'Add new software',
+			SW_OVERVIEW_SEARCH: 'Search...',
+			SW_OVERVIEW_SW_EDIT: '[edit]',
+			SW_OVERVIEW_SW_DEL: '[delete]',
+				
 			EDITENV_L: 'Edit Environment',
 			EDITENV_NAME: 'Name',
 			EDITENV_NAME_PH: 'Environment name',
@@ -157,6 +165,8 @@
 			BASE_SHOW_MENU: 'Menu anzeigen',
 			BASE_MENU_L: 'Menu',
 			BASE_MENU_HELP: 'Hilfe',
+			BASE_MENU_ENVS: 'Umgebungen',
+			BASE_MENU_SW: 'Software',
 
 			SW_OVERVIEW_HEADER: 'Software',
 			SW_OVERVIEW_ADD: 'Neue Software anlegen',
@@ -283,6 +293,7 @@
 							templateUrl: 'partials/wf-s/help-emil-dialog.html'
 						});
 					}
+					
 				},
 				controllerAs: "baseCtrl"
 			})
