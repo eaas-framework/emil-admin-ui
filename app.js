@@ -21,6 +21,7 @@
 	var updateDescriptionUrl = "updateDescription";
 	var deleteEnvironmentUrl = "deleteEnvironment";
 	var getObjectListURL = "getObjectList";
+	var saveSoftwareUrl = "saveSoftwareObject";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
 
@@ -342,7 +343,7 @@
 							return {
 								objectId: null,
 								licenseInformation: "",
-								allowedInstances: 1,
+								allowedInstances: -1,
 								nativeFMTs: [],
 								importFMTs: [],
 								exportFMTs: [],
@@ -376,8 +377,18 @@
 
 								// TODO save to REST
 								console.log(JSON.stringify(vm.softwareObj));
-
-								$state.go('wf-i.sw-overview', {}, {reload: true});
+								
+								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, softwareObj).then(function(response) {
+									if (response.data.status === "0") {
+										// remove env locally
+										growl.success(response.data.message);
+										$state.go('wf-i.sw-overview', {}, {reload: true});
+										
+									} else {
+										growl.error(response.data.message, {title: 'Error ' + response.data.status});
+									}
+								
+								
 							};
 						},
 						controllerAs: "swIngestCtrl"
