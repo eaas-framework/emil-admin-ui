@@ -387,7 +387,7 @@
 									} else {
 										growl.error(response.data.message, {title: 'Error ' + response.data.status});
 									}
-								
+								});
 								
 							};
 						},
