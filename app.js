@@ -357,7 +357,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-i/sw-ingest.html',
-						controller: function ($stateParams, $state, objectList, softwareObj) {
+						controller: function ($stateParams, $state, $http, localConfig, growl, objectList, softwareObj) {
 							var vm = this;
 
 							vm.isNewSoftware = $stateParams.swId === "-1";
