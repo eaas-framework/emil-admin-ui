@@ -22,6 +22,7 @@
 	var deleteEnvironmentUrl = "deleteEnvironment";
 	var getObjectListURL = "getObjectList";
 	var saveSoftwareUrl = "saveSoftwareObject";
+	var exportEnvironmentUrl = "export?envId={0}";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
 
@@ -430,6 +431,19 @@
 								return;
 							}
 							
+							vm.exportEnvironment = function(envId) {
+									
+								$http.get(localConfig.data.eaasBackendURL + formatStr(exportEnvironmentUrl, envId))		
+									.then(function(response) {
+										if (response.data.status === "0") {
+											growl.success("export successful");
+										} else {
+											growl.error(response.data.message, {title: 'Error ' + response.data.status});
+										}
+									});
+								
+							};
+							
 							vm.deleteEnvironment = function(envId) {
 								if (window.confirm($translate.instant('JS_DELENV_OK'))) {
 									$http.post(localConfig.data.eaasBackendURL + deleteEnvironmentUrl, {
@@ -448,7 +462,6 @@
 									});
 								}
 							};
-						
 							vm.envs = environmentList.data.environments;
 						},
 						controllerAs: "standardEnvsOverviewCtrl"
