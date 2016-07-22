@@ -22,6 +22,7 @@
 	var deleteEnvironmentUrl = "deleteEnvironment";
 	var getObjectListURL = "getObjectList";
 	var saveSoftwareUrl = "saveSoftwareObject";
+	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}"; 
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
 
@@ -339,7 +340,7 @@
 					},
 					softwareObj: function($stateParams, $http, localConfig) {
 						// return empty object for new software
-						// if ($stateParams.swId === "-1") {
+						if ($stateParams.swId === "-1") {
 							return {
 								objectId: null,
 								licenseInformation: "",
@@ -348,10 +349,10 @@
 								importFMTs: [],
 								exportFMTs: [],
 							}
-						// }
+						}
 
 						// TODO if $stateParams.swId != "-1" get from REST for edit
-						// return $http.get(localConfig.data.eaasBackendURL + getSoftwareObjectURL);
+					    return $http.get(localConfig.data.eaasBackendURL + formatStr(getSoftwareObjectURL, $stateParams.swId));
 					},
 				},
 				views: {
@@ -374,13 +375,10 @@
 
 							vm.save = function() {
 								vm.softwareObj.objectId = vm.selectedObject.id;
-
-								// TODO save to REST
 								console.log(JSON.stringify(vm.softwareObj));
 								
 								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, softwareObj).then(function(response) {
 									if (response.data.status === "0") {
-										// remove env locally
 										growl.success(response.data.message);
 										$state.go('wf-i.sw-overview', {}, {reload: true});
 										
