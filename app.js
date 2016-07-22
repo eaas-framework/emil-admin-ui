@@ -285,7 +285,7 @@
 				templateUrl: "partials/base.html",
 				resolve: {
 					localConfig: function($http) {
-						return $http.get("config.json");
+						return $http.get("config.json" + '?id=' + new Date().getTime());
 					}
 				},
 				controller: function($uibModal) {
