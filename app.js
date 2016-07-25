@@ -342,13 +342,15 @@
 						// return empty object for new software
 						if ($stateParams.swId === "-1") {
 							return {
-								objectId: null,
-								licenseInformation: "",
-								allowedInstances: -1,
-								nativeFMTs: [],
-								importFMTs: [],
-								exportFMTs: [],
-							}
+								data: {
+									objectId: null,
+									licenseInformation: "",
+									allowedInstances: -1,
+									nativeFMTs: [],
+									importFMTs: [],
+									exportFMTs: [],
+								}
+							};
 						}
 
 						// TODO if $stateParams.swId != "-1" get from REST for edit
@@ -371,13 +373,13 @@
 								vm.objectList = [vm.selectedObject];
 							}
 
-							vm.softwareObj = softwareObj;
+							vm.softwareObj = softwareObj.data;
 
 							vm.save = function() {
 								vm.softwareObj.objectId = vm.selectedObject.id;
 								console.log(JSON.stringify(vm.softwareObj));
 								
-								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, softwareObj).then(function(response) {
+								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, vm.softwareObj).then(function(response) {
 									if (response.data.status === "0") {
 										growl.success(response.data.message);
 										$state.go('wf-i.sw-overview', {}, {reload: true});
