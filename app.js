@@ -24,7 +24,7 @@
 	var saveSoftwareUrl = "saveSoftwareObject";
 	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}"; 
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 'angular-page-visibility'])
 
 	.component('inputList', {
 		templateUrl: 'partials/components/inputList.html',
@@ -139,7 +139,9 @@
 			JS_ACTIONS_SUCCESS: 'Success',
 			JS_START_CHAR: 'Automated characterization may take some time. Continue?',
 			JS_ENV_ERR_DUP: 'Environment already selected',
-			JS_ENV_ERR_ZERO: 'At least one environment has to be selected'
+			JS_ENV_ERR_ZERO: 'At least one environment has to be selected',
+			
+			JS_EMU_LEAVE_PAGE: 'If you don\'t return to this page within 3 min the emulator instance will be closed automatically.'
 		});
 
 		// English
@@ -239,7 +241,9 @@
 			JS_ACTIONS_SUCCESS: 'Ausführung erfolgreich beendet',
 			JS_START_CHAR: 'Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?',
 			JS_ENV_ERR_DUP: 'Diese Umgebung ist bereits hinzugefügt..',
-			JS_ENV_ERR_ZERO: 'Es muss mindestens eine Umgebung zugeordnet werden.'
+			JS_ENV_ERR_ZERO: 'Es muss mindestens eine Umgebung zugeordnet werden.',
+			
+			JS_EMU_LEAVE_PAGE: 'Wenn sie nicht innerhalb der nächsten 3 Minuten auf diese Seite zurückkehren, wird der Emulator automatisch geschlossen.'
 		});
 
 		// escape HTML in the translation
@@ -552,16 +556,19 @@
 								$state.go('error', {errorMsg: {title: "Emulation Error " + configureEnv.data.status, message: configureEnv.data.message}});
 								return;
 							}
+							
 							this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
 						},
 						controllerAs: "startEmuCtrl"
 					},
 					'actions': {
 						templateUrl: 'partials/wf-s/actions.html',
-						controller: function ($scope, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $translate) {							
-							this.isNewEnv = $stateParams.isNewEnv;
-							this.isNewObjectEnv = $stateParams.isNewObjectEnv;	
-							this.stopEmulator = function() {
+						controller: function ($scope, $window, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $timeout, $translate, $pageVisibility) {
+							var vm = this;
+							
+							vm.isNewEnv = $stateParams.isNewEnv;
+							vm.isNewObjectEnv = $stateParams.isNewObjectEnv;	
+							vm.stopEmulator = function () {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id)).then(function(response) {
 									if (response.data.status === "0") {
 										growl.success(response.data.message, {title: $translate.instant('JS_ACTIONS_SUCCESS')});
@@ -573,17 +580,17 @@
 								});
 							};
 							
-							this.restartEmulator = function() {
+							vm.restartEmulator = function() {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id))['finally'](function() {
 									$state.reload();
 								});
 							};
 						
-							this.screenshot = function() {
+							vm.screenshot = function() {
 								 window.open(localConfig.data.eaasBackendURL + formatStr(screenshotUrl, configureEnv.data.id), '_blank', ''); 
 							};
 							
-							this.openSaveEnvironmentDialog = function() {
+							vm.openSaveEnvironmentDialog = function() {
 								$uibModal.open({
 									animation: true,
 									templateUrl: 'partials/wf-s/save-environment-dialog.html',
@@ -635,7 +642,30 @@
 								});
 							}
 							
-							this.sessionId = configureEnv.data.id;
+							vm.sessionId = configureEnv.data.id;
+							
+							var closeEmulatorOnTabLeaveTimer = null;
+							var leaveWarningShownBefore = false;
+							
+							var deregisterOnPageFocused = $pageVisibility.$on('pageFocused', function() {								
+								$timeout.cancel(closeEmulatorOnTabLeaveTimer);
+							});
+
+							var deregisterOnPageBlurred = $pageVisibility.$on('pageBlurred', function() {
+								if (!leaveWarningShownBefore) {
+									$window.alert($translate.instant('JS_EMU_LEAVE_PAGE'));
+									leaveWarningShownBefore = true;
+								}
+								
+								closeEmulatorOnTabLeaveTimer = $timeout(function() {
+									vm.stopEmulator();
+								}, 3 * 60 * 1000);
+							});
+							
+							$scope.$on("$destroy", function() {
+								deregisterOnPageFocused();
+								deregisterOnPageBlurred();
+							});
 						},
 						controllerAs: "actionsCtrl"
 					}
