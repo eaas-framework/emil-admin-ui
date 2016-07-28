@@ -22,7 +22,8 @@
 	var deleteEnvironmentUrl = "deleteEnvironment";
 	var getObjectListURL = "getObjectList";
 	var saveSoftwareUrl = "saveSoftwareObject";
-	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}"; 
+	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
+	var initEmilEnvironmentsURL = "initEmilEnvironments";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 'angular-page-visibility'])
 
@@ -70,6 +71,7 @@
 			BASE_MENU_HELP: 'Help',
 			BASE_MENU_ENVS: 'Environments',
 			BASE_MENU_SW: 'Software',
+			BASE_MENU_IMPORT_ENVS: 'Import Environments',
 
 			SW_INGEST_HEADER: 'Software Ingest',
 			SW_INGEST_CHOOSE_OBJECT: 'Choose Object',
@@ -172,6 +174,7 @@
 			BASE_MENU_HELP: 'Hilfe',
 			BASE_MENU_ENVS: 'Umgebungen',
 			BASE_MENU_SW: 'Software',
+			BASE_MENU_IMPORT_ENVS: 'Umgebungen importieren',
 
 			SW_OVERVIEW_HEADER: 'Software',
 			SW_OVERVIEW_ADD: 'Neue Software anlegen',
@@ -411,11 +414,23 @@
 						return $http.get(localConfig.data.eaasBackendURL + getAllEnvsUrl);
 					}
 				},
-				controller: function($uibModal) {
-					this.open = function() {
+				controller: function($uibModal, $http, localConfig, growl) {
+					var vm = this;
+					
+					vm.open = function() {
 						$uibModal.open({
 							animation: true,
 							templateUrl: 'partials/wf-s/help-emil-dialog.html'
+						});
+					}
+					
+					vm.importEnvs = function() {
+						$http.get(localConfig.data.eaasBackendURL + initEmilEnvironmentsURL).then(function(response) {
+							if (response.data.status === "0") {
+								growl.success(response.data.message);
+							} else {
+								growl.error(response.data.message, {title: 'Error ' + response.data.status});
+							}
 						});
 					}
 				},
@@ -567,7 +582,8 @@
 							var vm = this;
 							
 							vm.isNewEnv = $stateParams.isNewEnv;
-							vm.isNewObjectEnv = $stateParams.isNewObjectEnv;	
+							vm.isNewObjectEnv = $stateParams.isNewObjectEnv;
+							
 							vm.stopEmulator = function () {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id)).then(function(response) {
 									if (response.data.status === "0") {
