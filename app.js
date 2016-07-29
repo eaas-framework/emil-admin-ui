@@ -414,7 +414,7 @@
 						return $http.get(localConfig.data.eaasBackendURL + getAllEnvsUrl);
 					}
 				},
-				controller: function($uibModal, $http, localConfig, growl) {
+				controller: function($state, $uibModal, $http, localConfig, growl) {
 					var vm = this;
 					
 					vm.open = function() {
@@ -427,6 +427,7 @@
 					vm.importEnvs = function() {
 						$http.get(localConfig.data.eaasBackendURL + initEmilEnvironmentsURL).then(function(response) {
 							if (response.data.status === "0") {
+								$state.go('wf-s.standard-envs-overview', {}, {reload: true});
 								growl.success(response.data.message);
 							} else {
 								growl.error(response.data.message, {title: 'Error ' + response.data.status});
