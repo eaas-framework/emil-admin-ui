@@ -25,7 +25,9 @@
 	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
 	var initEmilEnvironmentsURL = "initEmilEnvironments";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 'angular-page-visibility'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 
+	                               'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
+	                               'angular-page-visibility', 'textAngular'])
 
 	.component('inputList', {
 		templateUrl: 'partials/components/inputList.html',
@@ -109,6 +111,7 @@
 			EDITENV_OS: 'OS',
 			EDITENV_SW: 'Software',
 			EDITENV_SAVE: 'Save',
+			EDITENV_HELPTEXT: 'Environment Help Text:',
 			EDITENV_CANCEL: 'Cancel',
 				
 			CHAR_L: 'Characterize object', 
@@ -212,6 +215,7 @@
 			EDITENV_OS: 'OS',
 			EDITENV_SW: 'Software',
 			EDITENV_SAVE: 'Speichern',
+			EDITENV_HELPTEXT: 'Hilfetext zur Umgebung',
 			EDITENV_CANCEL: 'Abbrechen',
 			
 			CHAR_L: 'Objektcharakterisierung',
@@ -515,15 +519,18 @@
 							
 							this.envName = environmentList.data.environments[envIndex].title;
 							this.envDescription = environmentList.data.environments[envIndex].description;
+							this.helpText = environmentList.data.environments[envIndex].helpText;
 							
 							this.saveEdit = function() {
 								environmentList.data.environments[envIndex].title = this.envName;
 								environmentList.data.environments[envIndex].description = this.envDescription;
+								environmentList.data.environments[envIndex].helpText = this.helpText;
 							
 								$http.post(localConfig.data.eaasBackendURL + updateDescriptionUrl, {
 									envId: $stateParams.envId,
 									title: this.envName,
-									description: this.envDescription
+									description: this.envDescription,
+									helpText: this.helpText
 								}).then(function(response) {
 									if (response.data.status === "0") {
 										growl.success($translate.instant('JS_ENV_UPDATE'));
