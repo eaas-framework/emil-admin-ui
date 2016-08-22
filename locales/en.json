@@ -63,6 +63,7 @@
   "EDITENV_OS" : "OS",
   "EDITENV_SW" : "Software",
   "EDITENV_SAVE" : "Save",
+  "EDITENV_HELPTEXT" : "Environment Help Text:",
   "EDITENV_CANCEL" : "Cancel",
   
   "CHAR_L" : "Characterize object",

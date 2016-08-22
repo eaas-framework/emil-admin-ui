@@ -63,6 +63,7 @@
   "EDITENV_OS" : "OS",
   "EDITENV_SW" : "Software",
   "EDITENV_SAVE" : "Speichern",
+  "EDITENV_HELPTEXT": "Hilfetext zur Umgebung",
   "EDITENV_CANCEL" : "Abbrechen",
   
   "CHAR_L" : "Objektcharakterisierung",
