@@ -25,7 +25,7 @@
 	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
 	var initEmilEnvironmentsURL = "initEmilEnvironments";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.mask',
 	                               'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
 	                               'angular-page-visibility', 'textAngular'])
 
@@ -160,7 +160,6 @@
 							};
 						}
 
-						// TODO if $stateParams.swId != "-1" get from REST for edit
 					    return $http.get(localConfig.data.eaasBackendURL + formatStr(getSoftwareObjectURL, $stateParams.swId));
 					},
 				},
@@ -199,6 +198,57 @@
 							};
 						},
 						controllerAs: "swIngestCtrl"
+					}
+				}
+			})
+			.state('wf-i.new-image', {
+				url: "/new-image",
+				resolve: {
+					systemList: function($http, localConfig) {
+						// mockup data
+						return {
+							data: {"status": "0", "systems": [{"id": "abc", "label": "Windows XP SP1", "native_config": "test", "properties": [{"name": "Architecture", "value": "x86_64"}, {"name": "Fun Fact", "value": "In 1936, the Russians made a computer that ran on water"}]}]}
+						};
+
+						// TODO implement
+						// return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					},
+					softwareList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					}
+				},
+				views: {
+					'wizard': {
+						templateUrl: 'partials/wf-i/new-image.html',
+						controller: function ($scope, $state, $stateParams, systemList, softwareList, growl) {
+							var vm = this;
+
+							vm.systems = systemList.data.systems;
+							vm.softwareList = softwareList.data.descriptions;
+
+							// initialize default values of the form
+							vm.hdsize = 1024;
+							vm.hdtype = 'size';
+
+							vm.onSelectSystem = function(item, model) {
+								vm.native_config = item.native_config;
+							};
+
+							vm.start = function() {
+								console.log(vm.selectedSystem);
+								console.log(vm.name);
+
+								if (vm.hdtype == 'new') {
+									console.log(vm.hdsize);
+									console.log(vm.selectedSoftware);
+								} else {
+									console.log(vm.hdurl);
+								}
+
+								console.log(vm.native_config);
+							};
+						},
+						controllerAs: "newImageCtrl"
 					}
 				}
 			})
