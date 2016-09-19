@@ -23,8 +23,12 @@
 	var getObjectListURL = "getObjectList";
 	var saveSoftwareUrl = "saveSoftwareObject";
 	var exportEnvironmentUrl = "export?envId={0}";
+	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
+	var initEmilEnvironmentsURL = "initEmilEnvironments";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate'])
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.mask',
+	                               'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
+	                               'angular-page-visibility', 'textAngular'])
 
 	.component('inputList', {
 		templateUrl: 'partials/components/inputList.html',
@@ -41,214 +45,18 @@
 		/*
 		 * Internationalization 
 		 */
-
-		// German
-		$translateProvider.translations('en', {
-			CHOOSE_ENV_L: 'Environments',
-			CHOOSE_ENV_ADD: 'New environment',
-			CHOOSE_ENV_SEARCH: 'Search...',
-			CHOOSE_ENV_PROPOSAL: '[Configure environment]',
-			CHOOSE_ENV_EDIT: '[Edit description]',
-			CHOOSE_ENV_DEL: '[Delete]',
-			CHOOSE_ENV_VER: 'Version',
-			
-			ACTIONS_L: 'Actions',
-			ACTIONS_RESTART: 'Restart',
-			ACTIONS_SCREENSHOT: 'Screenshot',
-			ACTIONS_STOP: 'Stop',
-			ACTIONS_ENV: 'Save Environment',
-			ACTIONS_CHANGES: 'Save Changes',
-			ACTIONS_OBJ_ENV: 'Create Object Environment',
-				
-			ADDENV_L: 'Add environment',
-			ADDENV_SEARCH: 'Select an environment...',
-			ADDENV_ADD: "Add",
-			ADDENV_CANCEL: "Cancel",
-			
-			BASE_SHOW_MENU: 'Show menu',
-			BASE_MENU_L: 'Menu',
-			BASE_MENU_HELP: 'Help',
-			BASE_MENU_ENVS: 'Environments',
-			BASE_MENU_SW: 'Software',
-
-			SW_INGEST_HEADER: 'Software Ingest',
-			SW_INGEST_CHOOSE_OBJECT: 'Choose Object',
-			SW_INGEST_CHOOSE_OBJECT_PH: 'Search or choose an object...',
-			SW_INGEST_LICENSE_LBL: 'License information',
-			SW_INGEST_LICENSE_PH: 'Enter license information...',
-			SW_INGEST_NO_INSTANCES_LBL: 'Allowed number of instances (for unlimited choose -1):',
-			SW_INGEST_FMT_NATIVE_HEADER: 'Rendering Capabilites: Native FMTs',
-			SW_INGEST_FMT_NATIVE_EMPTY: 'No Native FMTs added yet.',
-			SW_INGEST_FMT_NATIVE_PH: 'Native PUID...',
-			SW_INGEST_FMT_NATIVE_BUTTON: 'Add native PUID',
-			SW_INGEST_FMT_IMPORT_HEADER: 'Rendering Capabilites: Import FMTs',
-			SW_INGEST_FMT_IMPORT_EMPTY: 'No Import FMTs added yet.',
-			SW_INGEST_FMT_IMPORT_PH: 'Import PUID...',
-			SW_INGEST_FMT_IMPORT_BUTTON: 'Add import PUID',
-			SW_INGEST_FMT_EXPORT_HEADER: 'Rendering Capabilites: Export FMTs',
-			SW_INGEST_FMT_EXPORT_EMPTY: 'No Export FMTs added yet.',
-			SW_INGEST_FMT_EXPORT_PH: 'Export PUID...',
-			SW_INGEST_FMT_EXPORT_BUTTON: 'Add export PUID',
-			SW_INGEST_SAVE_BUTTON: 'Save',
-			SW_INGEST_CANCEL_BUTTON: 'Cancel',
-			
-			SW_OVERVIEW_HEADER: 'Software',
-			SW_OVERVIEW_ADD: 'Add new software',
-			SW_OVERVIEW_SEARCH: 'Search...',
-			SW_OVERVIEW_SW_EDIT: '[edit]',
-			SW_OVERVIEW_SW_DEL: '[delete]',
-				
-			EDITENV_L: 'Edit Environment',
-			EDITENV_NAME: 'Name',
-			EDITENV_NAME_PH: 'Environment name',
-			EDITENV_DESC: 'Description',
-			EDITENV_DESC_PH: 'Environment description',
-			EDITENV_EMULATOR: 'Emulator',
-			EDITENV_OS: 'OS',
-			EDITENV_SW: 'Software',
-			EDITENV_SAVE: 'Save',
-			EDITENV_CANCEL: 'Cancel',
-				
-			CHAR_L: 'Characterize object', 
-			CHAR_AUT: 'Automated characterization',
-			CHAR_ADD: 'Add environment',
-			CHAR_SAVE: 'Save',
-			CHAR_CANCEL: 'Cancel',
-				
-			EMU_TITLE: 'Preparing emulation session',
-
-			NEWENV_L: 'Create environment',
-			NEWENV_BASE: 'Base environment',
-			NEWENV_SW: 'Software',
-			NEWENV_SELECT_ENV: 'Select environment...',
-			NEWENV_SELECT_SW: 'Select software...',
-			NEWENV_START: 'Start',
-			NEWENV_CANCEL: 'Cancel',
-			
-			SAVEENV_L: 'Save changes',
-			SAVEENV_NAME: 'Name',
-			SAVEENV_NAME_PH: 'Envirnment name',
-			SAVEENV_DESC: 'Decription',
-			SAVEENV_DESC_PH: 'Description of changes..',
-			SAVEENV_SAVE: 'Save',
-			SAVEENV_CANCEL: 'Cancel',
-			
-			JS_DELENV_OK: 'Do you really want to delete this environment',
-			JS_DELENV_SUCCESS: 'Environment has been deleted',
-			JS_ENV_UPDATE: 'Metadata has been updated',
-			JS_ACTIONS_SUCCESS: 'Success',
-			JS_START_CHAR: 'Automated characterization may take some time. Continue?',
-			JS_ENV_ERR_DUP: 'Environment already selected',
-			JS_ENV_ERR_ZERO: 'At least one environment has to be selected'
-		});
-
-		// English
-		$translateProvider.translations('de', {
-			CHOOSE_ENV_L: 'Standardumgebungen',
-			CHOOSE_ENV_ADD: 'Neue Umgebung anlegen',
-			CHOOSE_ENV_SEARCH: 'Eintippen zum Suchen...',
-			CHOOSE_ENV_PROPOSAL: '[Umgebung konfigurieren]',
-			CHOOSE_ENV_EDIT: '[Beschreibung bearbeiten]',
-			CHOOSE_ENV_DEL: '[Löschen]',
-			CHOOSE_ENV_VER: 'Version',
-			
-			ACTIONS_L: 'Aktionen',
-			ACTIONS_RESTART: 'Neustarten',
-			ACTIONS_SCREENSHOT: 'Screenshot',
-			ACTIONS_STOP: 'Beenden',
-			ACTIONS_ENV: 'Umgebung speichern',
-			ACTIONS_CHANGES: 'Änderungen speichern',
-			ACTIONS_OBJ_ENV: 'Neue Objekt Umgebung',
-			
-			ADDENV_L: 'Umgebung hinzufügen',
-			ADDENV_SEARCH: 'Wählen oder suchen sie eine Umgebung...',
-			ADDENV_ADD: "Hinzufügen",
-			ADDENV_CANCEL: "Abbrechen",
-			
-			BASE_SHOW_MENU: 'Menu anzeigen',
-			BASE_MENU_L: 'Menu',
-			BASE_MENU_HELP: 'Hilfe',
-			BASE_MENU_ENVS: 'Umgebungen',
-			BASE_MENU_SW: 'Software',
-
-			SW_OVERVIEW_HEADER: 'Software',
-			SW_OVERVIEW_ADD: 'Neue Software anlegen',
-			SW_OVERVIEW_SEARCH: 'Eintippen zum Suchen...',
-			SW_OVERVIEW_SW_EDIT: '[Bearbeiten]',
-			SW_OVERVIEW_SW_DEL: '[Löschen]',
-
-			SW_INGEST_HEADER: 'Software Ingest',
-			SW_INGEST_CHOOSE_OBJECT: 'Objekt auswählen',
-			SW_INGEST_CHOOSE_OBJECT_PH: 'Wählen oder suchen sie ein Objekt...',
-			SW_INGEST_LICENSE_LBL: 'Lizenzinformationen',
-			SW_INGEST_LICENSE_PH: 'Lizenzinformationen eingeben...',
-			SW_INGEST_NO_INSTANCES_LBL: 'Erlaubte Instanzanzahl (-1 für unbegrenzt)',
-			SW_INGEST_FMT_NATIVE_HEADER: 'Rendering Capabilites: Native FMTs',
-			SW_INGEST_FMT_NATIVE_EMPTY: 'No Native FMTs added yet.',
-			SW_INGEST_FMT_NATIVE_PH: 'Native PUID...',
-			SW_INGEST_FMT_NATIVE_BUTTON: 'Add native PUID',
-			SW_INGEST_FMT_IMPORT_HEADER: 'Rendering Capabilites: Import FMTs',
-			SW_INGEST_FMT_IMPORT_EMPTY: 'No Import FMTs added yet.',
-			SW_INGEST_FMT_IMPORT_PH: 'Import PUID...',
-			SW_INGEST_FMT_IMPORT_BUTTON: 'Add import PUID',
-			SW_INGEST_FMT_EXPORT_HEADER: 'Rendering Capabilites: Export FMTs',
-			SW_INGEST_FMT_EXPORT_EMPTY: 'No Export FMTs added yet.',
-			SW_INGEST_FMT_EXPORT_PH: 'Export PUID...',
-			SW_INGEST_FMT_EXPORT_BUTTON: 'Add export PUID',
-			SW_INGEST_CANCEL_BUTTON: 'Abbrechen',
-			SW_INGEST_SAVE_BUTTON: 'Speichern',
-
-			EDITENV_L: 'Umgebung bearbeiten',
-			EDITENV_NAME: 'Name',
-			EDITENV_NAME_PH: 'Name der Umgebung..',
-			EDITENV_DESC: 'Beschreibung',
-			EDITENV_DESC_PH: 'Beschreibung der Umgebung..',
-			EDITENV_EMULATOR: 'Emulator',
-			EDITENV_OS: 'OS',
-			EDITENV_SW: 'Software',
-			EDITENV_SAVE: 'Speichern',
-			EDITENV_CANCEL: 'Abbrechen',
-			
-			CHAR_L: 'Objektcharakterisierung',
-			CHAR_AUT: 'Automatische Charakterisierung',
-			CHAR_ADD: 'Umgebung hinzufügen',
-			CHAR_SAVE: 'Speichern',
-			CHAR_CANCEL: 'Abbrechen',
-			
-			EMU_TITLE: 'Das Emulationsystem wird gestartet...',
-			
-			NEWENV_L: 'Standardumgebung erstellen',
-			NEWENV_BASE: 'Basisumgebung',
-			NEWENV_SW: 'Software',
-			NEWENV_SELECT_ENV: 'Wählen oder suchen sie eine Umgebung...',
-			NEWENV_SELECT_SW: 'Wählen oder suchen sie eine Software...',
-			NEWENV_START: 'Starten',
-			NEWENV_CANCEL: 'Abbrechen',
-			
-			SAVEENV_L: 'Änderungen speichern',
-			SAVEENV_NAME: 'Name',
-			SAVEENV_NAME_PH: 'Name der Umgebung..',
-			SAVEENV_DESC: 'Beschreibung',
-			SAVEENV_DESC_PH: 'Beschreibung der Änderungen..',
-			SAVEENV_SAVE: 'Speichern',
-			SAVEENV_CANCEL: 'Abbrechen',
-			
-			JS_DELENV_OK: 'Dies löscht die Umgebung unwiderruflich. Wollen sie wirklich fortfahren?',
-			JS_DELENV_SUCCESS: 'Umgebung wurde erfolgreich gelöscht',
-			JS_ENV_UPDATE: 'Daten erfolgreich gespeichert',
-			JS_ACTIONS_SUCCESS: 'Ausführung erfolgreich beendet',
-			JS_START_CHAR: 'Die automatische Charakterisierung ersetzt ihre aktuelle Zuordnung und dauert bis zu mehreren Minuten. Fortfahren?',
-			JS_ENV_ERR_DUP: 'Diese Umgebung ist bereits hinzugefügt..',
-			JS_ENV_ERR_ZERO: 'Es muss mindestens eine Umgebung zugeordnet werden.'
+		$translateProvider.useStaticFilesLoader({
+		  prefix: 'locales/',
+		  suffix: '.json'
 		});
 
 		// escape HTML in the translation
 		$translateProvider.useSanitizeValueStrategy('escape');
 
 		$translateProvider.registerAvailableLanguageKeys(['en', 'de'], {
-		'en_*': 'en',
-		'de_*': 'de'
-		})
+		  'en_*': 'en',
+		  'de_*': 'de'
+		});
 
 		// automatically choose best language for user
 		$translateProvider.determinePreferredLanguage();
@@ -286,7 +94,7 @@
 				templateUrl: "partials/base.html",
 				resolve: {
 					localConfig: function($http) {
-						return $http.get("config.json");
+						return $http.get("config.json" + '?id=' + new Date().getTime());
 					}
 				},
 				controller: function($uibModal) {
@@ -340,19 +148,20 @@
 					},
 					softwareObj: function($stateParams, $http, localConfig) {
 						// return empty object for new software
-						// if ($stateParams.swId === "-1") {
+						if ($stateParams.swId === "-1") {
 							return {
-								objectId: null,
-								licenseInformation: "",
-								allowedInstances: -1,
-								nativeFMTs: [],
-								importFMTs: [],
-								exportFMTs: [],
-							}
-						// }
+								data: {
+									objectId: null,
+									licenseInformation: "",
+									allowedInstances: -1,
+									nativeFMTs: [],
+									importFMTs: [],
+									exportFMTs: [],
+								}
+							};
+						}
 
-						// TODO if $stateParams.swId != "-1" get from REST for edit
-						// return $http.get(localConfig.data.eaasBackendURL + getSoftwareObjectURL);
+					    return $http.get(localConfig.data.eaasBackendURL + formatStr(getSoftwareObjectURL, $stateParams.swId));
 					},
 				},
 				views: {
@@ -371,17 +180,14 @@
 								vm.objectList = [vm.selectedObject];
 							}
 
-							vm.softwareObj = softwareObj;
+							vm.softwareObj = softwareObj.data;
 
 							vm.save = function() {
 								vm.softwareObj.objectId = vm.selectedObject.id;
-
-								// TODO save to REST
 								console.log(JSON.stringify(vm.softwareObj));
 								
-								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, softwareObj).then(function(response) {
+								$http.post(localConfig.data.eaasBackendURL + saveSoftwareUrl, vm.softwareObj).then(function(response) {
 									if (response.data.status === "0") {
-										// remove env locally
 										growl.success(response.data.message);
 										$state.go('wf-i.sw-overview', {}, {reload: true});
 										
@@ -393,6 +199,57 @@
 							};
 						},
 						controllerAs: "swIngestCtrl"
+					}
+				}
+			})
+			.state('wf-i.new-image', {
+				url: "/new-image",
+				resolve: {
+					systemList: function($http, localConfig) {
+						// mockup data
+						return {
+							data: {"status": "0", "systems": [{"id": "abc", "label": "Windows XP SP1", "native_config": "test", "properties": [{"name": "Architecture", "value": "x86_64"}, {"name": "Fun Fact", "value": "In 1936, the Russians made a computer that ran on water"}]}]}
+						};
+
+						// TODO implement
+						// return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					},
+					softwareList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+					}
+				},
+				views: {
+					'wizard': {
+						templateUrl: 'partials/wf-i/new-image.html',
+						controller: function ($scope, $state, $stateParams, systemList, softwareList, growl) {
+							var vm = this;
+
+							vm.systems = systemList.data.systems;
+							vm.softwareList = softwareList.data.descriptions;
+
+							// initialize default values of the form
+							vm.hdsize = 1024;
+							vm.hdtype = 'size';
+
+							vm.onSelectSystem = function(item, model) {
+								vm.native_config = item.native_config;
+							};
+
+							vm.start = function() {
+								console.log(vm.selectedSystem);
+								console.log(vm.name);
+
+								if (vm.hdtype == 'new') {
+									console.log(vm.hdsize);
+									console.log(vm.selectedSoftware);
+								} else {
+									console.log(vm.hdurl);
+								}
+
+								console.log(vm.native_config);
+							};
+						},
+						controllerAs: "newImageCtrl"
 					}
 				}
 			})
@@ -408,11 +265,24 @@
 						return $http.get(localConfig.data.eaasBackendURL + getAllEnvsUrl);
 					}
 				},
-				controller: function($uibModal) {
-					this.open = function() {
+				controller: function($state, $uibModal, $http, localConfig, growl) {
+					var vm = this;
+					
+					vm.open = function() {
 						$uibModal.open({
 							animation: true,
 							templateUrl: 'partials/wf-s/help-emil-dialog.html'
+						});
+					}
+					
+					vm.importEnvs = function() {
+						$http.get(localConfig.data.eaasBackendURL + initEmilEnvironmentsURL).then(function(response) {
+							if (response.data.status === "0") {
+								$state.go('wf-s.standard-envs-overview', {}, {reload: true});
+								growl.success(response.data.message);
+							} else {
+								growl.error(response.data.message, {title: 'Error ' + response.data.status});
+							}
 						});
 					}
 				},
@@ -508,15 +378,18 @@
 							
 							this.envName = environmentList.data.environments[envIndex].title;
 							this.envDescription = environmentList.data.environments[envIndex].description;
+							this.helpText = environmentList.data.environments[envIndex].helpText;
 							
 							this.saveEdit = function() {
 								environmentList.data.environments[envIndex].title = this.envName;
 								environmentList.data.environments[envIndex].description = this.envDescription;
+								environmentList.data.environments[envIndex].helpText = this.helpText;
 							
 								$http.post(localConfig.data.eaasBackendURL + updateDescriptionUrl, {
 									envId: $stateParams.envId,
 									title: this.envName,
-									description: this.envDescription
+									description: this.envDescription,
+									helpText: this.helpText
 								}).then(function(response) {
 									if (response.data.status === "0") {
 										growl.success($translate.instant('JS_ENV_UPDATE'));
@@ -565,16 +438,20 @@
 								$state.go('error', {errorMsg: {title: "Emulation Error " + configureEnv.data.status, message: configureEnv.data.message}});
 								return;
 							}
+							
 							this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
 						},
 						controllerAs: "startEmuCtrl"
 					},
 					'actions': {
 						templateUrl: 'partials/wf-s/actions.html',
-						controller: function ($scope, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $translate) {							
-							this.isNewEnv = $stateParams.isNewEnv;
-							this.isNewObjectEnv = $stateParams.isNewObjectEnv;	
-							this.stopEmulator = function() {
+						controller: function ($scope, $window, $state, $http, $uibModal, $stateParams, configureEnv, growl, localConfig, $timeout, $translate, $pageVisibility) {
+							var vm = this;
+							
+							vm.isNewEnv = $stateParams.isNewEnv;
+							vm.isNewObjectEnv = $stateParams.isNewObjectEnv;
+							
+							vm.stopEmulator = function () {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id)).then(function(response) {
 									if (response.data.status === "0") {
 										growl.success(response.data.message, {title: $translate.instant('JS_ACTIONS_SUCCESS')});
@@ -586,17 +463,17 @@
 								});
 							};
 							
-							this.restartEmulator = function() {
+							vm.restartEmulator = function() {
 								$http.get(localConfig.data.eaasBackendURL + formatStr(stopUrl, configureEnv.data.id))['finally'](function() {
 									$state.reload();
 								});
 							};
 						
-							this.screenshot = function() {
+							vm.screenshot = function() {
 								 window.open(localConfig.data.eaasBackendURL + formatStr(screenshotUrl, configureEnv.data.id), '_blank', ''); 
 							};
 							
-							this.openSaveEnvironmentDialog = function() {
+							vm.openSaveEnvironmentDialog = function() {
 								$uibModal.open({
 									animation: true,
 									templateUrl: 'partials/wf-s/save-environment-dialog.html',
@@ -648,7 +525,30 @@
 								});
 							}
 							
-							this.sessionId = configureEnv.data.id;
+							vm.sessionId = configureEnv.data.id;
+							
+							var closeEmulatorOnTabLeaveTimer = null;
+							var leaveWarningShownBefore = false;
+							
+							var deregisterOnPageFocused = $pageVisibility.$on('pageFocused', function() {								
+								$timeout.cancel(closeEmulatorOnTabLeaveTimer);
+							});
+
+							var deregisterOnPageBlurred = $pageVisibility.$on('pageBlurred', function() {
+								if (!leaveWarningShownBefore) {
+									$window.alert($translate.instant('JS_EMU_LEAVE_PAGE'));
+									leaveWarningShownBefore = true;
+								}
+								
+								closeEmulatorOnTabLeaveTimer = $timeout(function() {
+									vm.stopEmulator();
+								}, 3 * 60 * 1000);
+							});
+							
+							$scope.$on("$destroy", function() {
+								deregisterOnPageFocused();
+								deregisterOnPageBlurred();
+							});
 						},
 						controllerAs: "actionsCtrl"
 					}

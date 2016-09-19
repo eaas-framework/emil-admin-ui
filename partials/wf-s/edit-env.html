@@ -12,6 +12,7 @@
 	</div>
 
 	<p><b>{{'EDITENV_EMULATOR' | translate}}:</b> {{editEnvCtrl.env.emulator}} </p>
+	<p><b>{{'EDITENV_HELPTEXT' | translate}}:</b> <br/> <text-angular ng-model="editEnvCtrl.helpText"/></p>
 	<p><b>{{'EDITENV_OS' | translate}}:</b> {{editEnvCtrl.env.os}} </p>
 	<div ng-show="editEnvCtrl.env.installedSoftwareIds.length > 0">
 		<p id="editEnvSoftwareListLabel"><b>{{'EDITENV_SW' | translate}}:</b></p>
