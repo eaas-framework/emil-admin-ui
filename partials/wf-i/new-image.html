@@ -71,7 +71,7 @@
 	</div>
 
 	<label>{{'SW_NEW_IMAGE_NATIVE_CONFIG_LBL' | translate}}</label>
-	<input type="text" class="form-control" ng-model="newImageCtrl.native_config" />
+	<textarea class="form-control" ng-model="newImageCtrl.native_config" />
 
 	<br>
 
@@ -79,6 +79,12 @@
 		<button type="button" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'SW_NEW_IMAGE_CANCEL_BUTTON' | translate}}</button>
 		<button type="button" class="btn btn-primary" ng-click="newImageCtrl.start()" ng-disabled="!newImageCtrl.form.$valid">{{'SW_NEW_IMAGE_START_BUTTON' | translate}}</button>
 	</div>
+	<!-- 
+	<button type="submit" class="btn btn-default" ui-sref="wf-s.standard-envs-overview">{{'NEWENV_CANCEL' | translate}}</button>
+		<button type="submit" class="btn btn-primary" 
+		ui-sref="wf-s.emulator({envId: newEnvCtrl.selected_env.envId, isNewEnv: true, softwareId: newEnvCtrl.selected_sw.id})" 
+		ng-disabled="!newEnvCtrl.newEnvForm.$valid">{{'NEWENV_START' | translate}}</button>
+	 -->
 </form>
 
 <br>

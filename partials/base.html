@@ -18,10 +18,12 @@
 					</div>
 					<div class="navbar-collapse collapse sidebar-navbar-collapse" collapse="isCollapsed">
 						<ul class="nav navbar-nav">
-							<li><a ng-click="baseCtrl.open()" href="">{{'BASE_MENU_HELP'| translate}}</a></li>
+							<!-- <li><a ng-click="baseCtrl.open()" href="">{{'BASE_MENU_HELP'| translate}}</a></li>  -->
 							<li><a ui-sref="wf-s.standard-envs-overview" href="">{{'BASE_MENU_ENVS'| translate}}</a></li>
 							<li><a ui-sref="wf-i.sw-overview" href="">{{'BASE_MENU_SW'| translate}}</a></li>
+							<hr/>
 							<li><a ng-click="baseCtrl.importEnvs()" href="">{{'BASE_MENU_IMPORT_ENVS'| translate}}</a></li>
+							<li><a ui-sref="wf-i.new-image" href="">{{'BASE_MENU_NEW_ENV' | translate }}</a></li>
 						</ul>
 					</div>
 				</div>

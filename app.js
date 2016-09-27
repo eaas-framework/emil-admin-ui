@@ -25,6 +25,10 @@
 	var exportEnvironmentUrl = "export?envId={0}";
 	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
 	var initEmilEnvironmentsURL = "initEmilEnvironments";
+	var getEnvironmentTemplates = "getEnvironmentTemplates";
+	var createImageUrl = "createImage?size={0}";
+	var prepareEnvironmentUrl = "prepareEnvironment";
+	var importImageUrl = "importImage";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.mask',
 	                               'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
@@ -206,13 +210,7 @@
 				url: "/new-image",
 				resolve: {
 					systemList: function($http, localConfig) {
-						// mockup data
-						return {
-							data: {"status": "0", "systems": [{"id": "abc", "label": "Windows XP SP1", "native_config": "test", "properties": [{"name": "Architecture", "value": "x86_64"}, {"name": "Fun Fact", "value": "In 1936, the Russians made a computer that ran on water"}]}]}
-						};
-
-						// TODO implement
-						// return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
+						return $http.get(localConfig.data.eaasBackendURL + getEnvironmentTemplates);
 					},
 					softwareList: function($http, localConfig) {
 						return $http.get(localConfig.data.eaasBackendURL + getSoftwarePackageDescriptions);
@@ -221,7 +219,7 @@
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-i/new-image.html',
-						controller: function ($scope, $state, $stateParams, systemList, softwareList, growl) {
+						controller: function ($http, $scope, $state, $stateParams, systemList, softwareList, growl, localConfig) {
 							var vm = this;
 
 							vm.systems = systemList.data.systems;
@@ -231,6 +229,8 @@
 							vm.hdsize = 1024;
 							vm.hdtype = 'size';
 
+							vm.imageId = "";
+							
 							vm.onSelectSystem = function(item, model) {
 								vm.native_config = item.native_config;
 							};
@@ -239,14 +239,49 @@
 								console.log(vm.selectedSystem);
 								console.log(vm.name);
 
+								// please refactor!
 								if (vm.hdtype == 'new') {
-									console.log(vm.hdsize);
-									console.log(vm.selectedSoftware);
+									// console.log(vm.hdsize);
+									// console.log(vm.selectedSoftware);
+									$http.get(localConfig.data.eaasBackendURL + formatStr(createImageUrl, vm.hdsize + 'M')).then(function(response) {
+										if (response.data.status !== "0") 
+											growl.error(response.data.message, {title: 'Error ' + response.data.status});
+										
+										vm.imageId = response.data.id;
+										var postObj = {
+												label: vm.name,
+												templateId: vm.selectedSystem.id,								
+												imageId: vm.imageId,
+												nativeConfig: vm.native_config
+												};
+										$http.post(localConfig.data.eaasBackendURL + prepareEnvironmentUrl, postObj).then(function(response) {
+												if (response.data.status !== "0") 
+													growl.error(response.data.message, {title: 'Error ' + response.data.status});
+												$state.go('wf-s.emulator', {envId: vm.imageId, isNewEnv: false, softwareId: vm.selectedSoftware.id});
+											});
+									});
 								} else {
 									console.log(vm.hdurl);
+									$http.post(localConfig.data.eaasBackendURL + importImageUrl, {url: vm.hdurl}).then(function(response) {
+										if (response.data.status !== "0") 
+											growl.error(response.data.message, {title: 'Error ' + response.data.status});
+										
+										vm.imageId = response.data.id;
+										var postObj = {
+												label: vm.name,
+												templateId: vm.selectedSystem.id,								
+												imageId: vm.imageId,
+												nativeConfig: vm.native_config
+												};
+										$http.post(localConfig.data.eaasBackendURL + prepareEnvironmentUrl, postObj).then(function(response) {
+												if (response.data.status !== "0") 
+													growl.error(response.data.message, {title: 'Error ' + response.data.status});
+												$state.go('wf-s.emulator', {envId: vm.imageId, isNewEnv: false});
+											});
+									});
+									
 								}
-
-								console.log(vm.native_config);
+								
 							};
 						},
 						controllerAs: "newImageCtrl"
@@ -418,7 +453,7 @@
 					configureEnv: function($http, $stateParams, localConfig) {
 						var result = null;
 						
-						if ($stateParams.isNewEnv) {
+						if ($stateParams.isNewEnv || $stateParams.softwareId !== null) {
 							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithSoftwarePackage, $stateParams.envId, $stateParams.softwareId))
 						} else if ($stateParams.isNewObjectEnv) {
 							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithDigitalObjectUrl, $stateParams.objectId, $stateParams.envId))
@@ -529,7 +564,7 @@
 							
 							var closeEmulatorOnTabLeaveTimer = null;
 							var leaveWarningShownBefore = false;
-							
+							/*
 							var deregisterOnPageFocused = $pageVisibility.$on('pageFocused', function() {								
 								$timeout.cancel(closeEmulatorOnTabLeaveTimer);
 							});
@@ -549,6 +584,7 @@
 								deregisterOnPageFocused();
 								deregisterOnPageBlurred();
 							});
+							*/
 						},
 						controllerAs: "actionsCtrl"
 					}
