@@ -8,12 +8,14 @@
 	
 	var loadEnvsUrl = "loadEnvs?objectId={0}";
 	var getAllEnvsUrl = "getEmilEnvironments";
+	var getObjectEnvironmentsUrl ="getEmilObjectEnvironments"
 	var configureEnv = "configureEnv?envId={0}";
 	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}";
 	var startEnvWithDigitalObjectUrl = "startEnvWithDigitalObject?objectId={0}&envId={1}";
 	var stopUrl = "stop?sessionId={0}";
 	var screenshotUrl = "screenshot?sessionId={0}";
 	var saveNewEnvironment = "saveNewEnvironment";
+	var saveNewObjectEnvironmentUrl = "saveObjectConfiguration";
 	var saveEnvConfiguration = "saveEnvConfiguration";
 	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
 	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization";
@@ -298,6 +300,9 @@
 					},
 					environmentList: function($http, localConfig) {
 						return $http.get(localConfig.data.eaasBackendURL + getAllEnvsUrl);
+					},
+					objectEnvironmentList: function($http, localConfig) {
+						return $http.get(localConfig.data.eaasBackendURL + getObjectEnvironmentsUrl)
 					}
 				},
 				controller: function($state, $uibModal, $http, localConfig, growl) {
@@ -325,10 +330,13 @@
 			})
 			.state('wf-s.standard-envs-overview', {
 				url: "/standard-envs-overview",
+				params: {
+					showObjects: false
+				},
 				views: {
 					'wizard': {
 						templateUrl: 'partials/wf-s/standard-envs-overview.html',
-						controller: function ($http, $state, environmentList, localConfig, growl, $translate) {
+						controller: function ($http, $state, $stateParams, environmentList, objectEnvironmentList, localConfig, growl, $translate) {
 							var vm = this;
 							
 							if (environmentList.data.status !== "0") {
@@ -368,6 +376,8 @@
 								}
 							};
 							vm.envs = environmentList.data.environments;
+							vm.objEnvs = objectEnvironmentList.data.environments;
+							vm.showObjects = $stateParams.showObjects;
 						},
 						controllerAs: "standardEnvsOverviewCtrl"
 					}
@@ -528,13 +538,12 @@
 													isObjectEnvironment: false													
 												});
 											} else if ($stateParams.isNewObjectEnv) {
-												postResult = $http.post(localConfig.data.eaasBackendURL + saveNewEnvironment, {
+												postResult = $http.post(localConfig.data.eaasBackendURL + saveNewObjectEnvironmentUrl, {
 													sessionId: configureEnv.data.id,
 													envId: $stateParams.envId,
+													objectId: $stateParams.objectId,
 													title: this.envName,
-													description: this.envDescription,
-													softwareId: $stateParams.softwareId,
-													isObjectEnvironment: true													
+													description: this.envDescription												
 												});
 											} else {
 												postResult = $http.post(localConfig.data.eaasBackendURL + saveEnvConfiguration, {

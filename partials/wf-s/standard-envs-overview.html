@@ -1,6 +1,6 @@
 <h1 class="m-t-0">{{'CHOOSE_ENV_L' | translate}}</h1>
 
-<table id="standard-envs-overview-table" st-table="displayEnvs" st-safe-src="standardEnvsOverviewCtrl.envs" class="table">
+<table id="standard-envs-overview-table" st-table="displayEnvs" st-safe-src="standardEnvsOverviewCtrl.showObjects?standardEnvsOverviewCtrl.objEnvs:standardEnvsOverviewCtrl.envs" class="table">
 	<thead>	
 		<tr>			
 			<th colspan="5">

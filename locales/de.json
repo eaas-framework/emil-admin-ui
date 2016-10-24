@@ -24,6 +24,7 @@
   "BASE_MENU_L" : "Menu",
   "BASE_MENU_HELP" : "Hilfe",
   "BASE_MENU_ENVS" : "Umgebungen",
+  "BASE_MENU_OBJENVS": "Objektumgebungen",
   "BASE_MENU_SW" : "Software",
   "BASE_MENU_IMPORT_ENVS" : "Umgebungen importieren",
   "BASE_MENU_NEW_ENV" : "Basisumgebung erstellen",
