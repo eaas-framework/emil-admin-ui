@@ -7,6 +7,8 @@
   "CHOOSE_ENV_DEL" : "[Delete]",
   "CHOOSE_ENV_VER" : "Version",
   
+  "ERROR_RETURN_BTN" : "Back to overview",
+  
   "ACTIONS_L" : "Actions",
   "ACTIONS_RESTART" : "Restart",
   "ACTIONS_SCREENSHOT" : "Screenshot",
