@@ -89,7 +89,12 @@
 				params: {
 					errorMsg: {title: "", message: ""}
 				},
-				controller: function($stateParams) {
+				controller: function($state, $stateParams) {
+					if ($stateParams.errorMsg.title === "" && $stateParams.errorMsg.title === "") {
+						$state.go('wf-s.standard-envs-overview');
+						return;
+					}
+
 					this.errorMsg = $stateParams.errorMsg;
 				},
 				controllerAs: "errorCtrl"
