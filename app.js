@@ -9,9 +9,9 @@
 	var loadEnvsUrl = "loadEnvs?objectId={0}";
 	var getAllEnvsUrl = "getEmilEnvironments";
 	var getObjectEnvironmentsUrl ="getEmilObjectEnvironments"
-	var configureEnv = "configureEnv?envId={0}";
-	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}";
-	var startEnvWithDigitalObjectUrl = "startEnvWithDigitalObject?objectId={0}&envId={1}";
+	var configureEnv = "configureEnv?envId={0}&language={1}&layout={2}";
+	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}&language={2}&layout={3}";
+	var startEnvWithDigitalObjectUrl = "startEnvWithDigitalObject?objectId={0}&envId={1}&language={2}&layout={3}";
 	var stopUrl = "stop?sessionId={0}";
 	var screenshotUrl = "screenshot?sessionId={0}";
 	var saveNewEnvironment = "saveNewEnvironment";
@@ -521,16 +521,22 @@
 					objectId: null
 				},
 				resolve: {
-					configureEnv: function($http, $stateParams, localConfig) {
+					configureEnv: function($http, $stateParams, $cookies, localConfig) {
 						var result = null;
+
+						// fallback to defaults when no cookie is found
+						var kbLayoutPrefs = $cookies.getObject('kbLayoutPrefs') || {language: {name: 'us'}, layout: {name: 'pc105'}};
 						
 						if ($stateParams.isNewEnv || $stateParams.softwareId !== null) {
-							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithSoftwarePackage, $stateParams.envId, $stateParams.softwareId))
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithSoftwarePackage, $stateParams.envId, $stateParams.softwareId,
+									   kbLayoutPrefs.language.name, kbLayoutPrefs.layout.name))
 						} else if ($stateParams.isNewObjectEnv) {
-							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithDigitalObjectUrl, $stateParams.objectId, $stateParams.envId))
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(startEnvWithDigitalObjectUrl, $stateParams.objectId, $stateParams.envId,
+									   kbLayoutPrefs.language.name, kbLayoutPrefs.layout.name))
 						}
 						else {
-							result = $http.get(localConfig.data.eaasBackendURL + formatStr(configureEnv, $stateParams.envId));
+							result = $http.get(localConfig.data.eaasBackendURL + formatStr(configureEnv, $stateParams.envId,
+									   kbLayoutPrefs.language.name, kbLayoutPrefs.layout.name));
 						}
 						
 						return result;
