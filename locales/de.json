@@ -30,6 +30,16 @@
   "BASE_MENU_SW" : "Software",
   "BASE_MENU_IMPORT_ENVS" : "Umgebungen importieren",
   "BASE_MENU_NEW_ENV" : "Basisumgebung erstellen",
+  "BASE_MENU_SET_KEYBOARD_LAYOUT" : "Tastaturlayout ändern",
+
+  "SET_KEYBOARD_DLG_TITLE" : "Tastaturlayout ändern",
+  "SET_KEYBOARD_DLG_CHOOSE_LANG" : "Sprache auswählen",
+  "SET_KEYBOARD_DLG_CHOOSE_LANG_PH" : "Wählen oder suchen sie eine Sprache...",
+  "SET_KEYBOARD_DLG_CHOOSE_LAYOUT" : "Tastaturlayout wählen",
+  "SET_KEYBOARD_DLG_CHOOSE_LAYOUT_PH" : "Wählen oder suchen sie ein Tastaturlayout...",
+  "SET_KEYBOARD_DLG_SAVE" : "Speichern",
+  "SET_KEYBOARD_DLG_SAVE_CANCEL" : "Abbrechen",
+  "SET_KEYBOARD_DLG_SAVE_SUCCESS": "Gewählte Tastatur wurde auf diesem Rechner gespeichert",
   
   "SW_OVERVIEW_HEADER" : "Software",
   "SW_OVERVIEW_ADD" : "Neue Software anlegen",

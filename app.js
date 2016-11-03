@@ -32,8 +32,8 @@
 	var prepareEnvironmentUrl = "prepareEnvironment";
 	var importImageUrl = "importImage";
 	
-	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ui.router', 'ui.bootstrap', 'ui.mask',
-	                               'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
+	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ngCookies', 'ui.router', 'ui.bootstrap', 
+								   'ui.mask', 'ui.select', 'angular-growl', 'smart-table', 'ng-sortable', 'pascalprecht.translate', 
 	                               'angular-page-visibility', 'textAngular'])
 
 	.component('inputList', {
@@ -45,6 +45,29 @@
 			inputPlaceholder: '@',
 			addButtonText: '@',
 		}
+	})
+
+	.controller('setKeyboardLayoutDialogController', function($scope, $cookies, $translate, kbLayouts, growl) {
+		this.kbLayouts = kbLayouts.data;
+
+		var kbLayoutPrefs = $cookies.getObject('kbLayoutPrefs');
+
+		if (kbLayoutPrefs) {
+			this.chosen_language = kbLayoutPrefs.language;
+			this.chosen_layout = kbLayoutPrefs.layout;
+		}
+
+		this.saveKeyboardLayout = function() {
+			if (!this.chosen_language || !this.chosen_layout) {
+				growl.error($translate.instant('SET_KEYBOARD_DLG_SAVE_ERROR_EMPTY'));
+				return;
+			}
+
+			$cookies.putObject('kbLayoutPrefs', {"language": this.chosen_language, "layout": this.chosen_layout}, {expires: new Date('2100')});
+
+			growl.success($translate.instant('SET_KEYBOARD_DLG_SAVE_SUCCESS'));
+			$scope.$close();
+		};
 	})
 
 	.config(function($stateProvider, $urlRouterProvider, growlProvider, $httpProvider, $translateProvider) {
@@ -106,16 +129,33 @@
 				resolve: {
 					localConfig: function($http) {
 						return $http.get("config.json" + '?id=' + new Date().getTime());
+					},
+					kbLayouts: function($http) {
+						return $http.get("kbLayouts.json");
 					}
 				},
-				controller: function($uibModal) {
-					this.open = function() {
+				controller: function($uibModal, kbLayouts) {
+					var vm = this;
+
+					vm.open = function() {
 						$uibModal.open({
 							animation: true,
 							templateUrl: 'partials/wf-s/help-emil-dialog.html'
 						});
 					}
-					
+
+					vm.showSetKeyboardLayoutDialog = function() {
+						$uibModal.open({
+							animation: true,
+							templateUrl: 'partials/set-keyboard-layout-dialog.html',
+							resolve: {
+								kbLayouts: function() {
+									return kbLayouts; // refers to outer kbLayouts variable
+								}
+							},
+							controller: "setKeyboardLayoutDialogController as setKeyboardLayoutDialogCtrl"
+						});
+					};					
 				},
 				controllerAs: "baseCtrl"
 			})
@@ -308,9 +348,12 @@
 					},
 					objectEnvironmentList: function($http, localConfig) {
 						return $http.get(localConfig.data.eaasBackendURL + getObjectEnvironmentsUrl)
+					},
+					kbLayouts: function($http) {
+						return $http.get("kbLayouts.json");
 					}
 				},
-				controller: function($state, $uibModal, $http, localConfig, growl) {
+				controller: function($state, $uibModal, $http, localConfig, kbLayouts, growl) {
 					var vm = this;
 					
 					vm.open = function() {
@@ -330,6 +373,19 @@
 							}
 						});
 					}
+
+					vm.showSetKeyboardLayoutDialog = function() {
+						$uibModal.open({
+							animation: true,
+							templateUrl: 'partials/set-keyboard-layout-dialog.html',
+							resolve: {
+								kbLayouts: function() {
+									return kbLayouts; // refers to outer kbLayouts variable
+								}
+							},
+							controller: "setKeyboardLayoutDialogController as setKeyboardLayoutDialogCtrl"
+						});
+					};
 				},
 				controllerAs: "baseCtrl"
 			})
