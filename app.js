@@ -6,30 +6,36 @@
 		});
 	};
 	
-	var loadEnvsUrl = "loadEnvs?objectId={0}";
-	var getAllEnvsUrl = "getEmilEnvironments";
-	var getObjectEnvironmentsUrl ="getEmilObjectEnvironments"
-	var configureEnv = "configureEnv?envId={0}&language={1}&layout={2}";
-	var startEnvWithSoftwarePackage = "startEnvWithSoftwarePackage?envId={0}&softwareId={1}&language={2}&layout={3}";
-	var startEnvWithDigitalObjectUrl = "startEnvWithDigitalObject?objectId={0}&envId={1}&language={2}&layout={3}";
-	var stopUrl = "stop?sessionId={0}";
-	var screenshotUrl = "screenshot?sessionId={0}";
-	var saveNewEnvironment = "saveNewEnvironment";
-	var saveNewObjectEnvironmentUrl = "saveObjectConfiguration";
-	var saveEnvConfiguration = "saveEnvConfiguration";
-	var getSoftwarePackageDescriptions = "getSoftwarePackageDescriptions";
-	var overrideObjectCharacterizationUrl = "overrideObjectCharacterization";
-	var characterizeObjectUrl = "characterizeObject?objectId={0}";
-	var updateDescriptionUrl = "updateDescription";
-	var deleteEnvironmentUrl = "deleteEnvironment";
-	var getObjectListURL = "getObjectList";
-	var saveSoftwareUrl = "saveSoftwareObject";
-	var exportEnvironmentUrl = "export?envId={0}";
-	var getSoftwareObjectURL = "getSoftwareObject?softwareId={0}";
-	var initEmilEnvironmentsURL = "initEmilEnvironments";
-	var getEnvironmentTemplates = "getEnvironmentTemplates";
-	var createImageUrl = "createImage?size={0}";
-	var prepareEnvironmentUrl = "prepareEnvironment";
+	// object data api
+	var loadEnvsUrl = "EmilObjectData/environments?objectId={0}";
+	var getObjectListURL = "EmilObjectData/list";
+	
+	// environment data api
+	var getAllEnvsUrl = "EmilEnvironmentData/list?type={0}";
+	var updateDescriptionUrl = "EmilEnvironmentData/updateDescription";
+	var deleteEnvironmentUrl = "EmilEnvironmentData/delete";
+	var initEmilEnvironmentsURL = "EmilEnvironmentData/init";
+	var getEnvironmentTemplates = "EmilEnvironmentData/templates";
+	var createImageUrl = "EmilEnvironmentData/createImage?size={0}";
+	var prepareEnvironmentUrl = "EmilEnvironmentData/prepareEnvironment";
+	
+	var configureEnv = "Emil/configureEnv?envId={0}&language={1}&layout={2}";
+	var startEnvWithSoftwarePackage = "Emil/startEnvWithSoftwarePackage?envId={0}&softwareId={1}&language={2}&layout={3}";
+	var startEnvWithDigitalObjectUrl = "Emil/startEnvWithDigitalObject?objectId={0}&envId={1}&language={2}&layout={3}";
+	var stopUrl = "Emil/stop?sessionId={0}";
+	var screenshotUrl = "Emil/screenshot?sessionId={0}";
+	var saveNewEnvironment = "Emil/saveNewEnvironment";
+	var saveNewObjectEnvironmentUrl = "Emil/saveObjectConfiguration";
+	var saveEnvConfiguration = "Emil/saveEnvConfiguration";
+	var overrideObjectCharacterizationUrl = "Emil/overrideObjectCharacterization";
+	var characterizeObjectUrl = "Emil/characterizeObject?objectId={0}";
+	var exportEnvironmentUrl = "Emil/export?envId={0}";
+	
+	// Software archive api
+	var getSoftwarePackageDescriptions = "EmilSoftareData/getSoftwarePackageDescriptions";
+	var saveSoftwareUrl = "EmilSoftareData/saveSoftwareObject";
+	var getSoftwareObjectURL = "EmilSoftareData/getSoftwareObject?softwareId={0}";
+	
 	var importImageUrl = "importImage";
 	
 	angular.module('emilAdminUI', ['angular-loading-bar', 'ngSanitize', 'ngAnimate', 'ngCookies', 'ui.router', 'ui.bootstrap', 
@@ -344,10 +350,10 @@
 						return $http.get("config.json");
 					},
 					environmentList: function($http, localConfig) {
-						return $http.get(localConfig.data.eaasBackendURL + getAllEnvsUrl);
+						return $http.get(localConfig.data.eaasBackendURL + formatStr(getAllEnvsUrl, "base"));
 					},
 					objectEnvironmentList: function($http, localConfig) {
-						return $http.get(localConfig.data.eaasBackendURL + getObjectEnvironmentsUrl)
+						return $http.get(localConfig.data.eaasBackendURL + formatStr(getAllEnvsUrl, "object"))
 					},
 					kbLayouts: function($http) {
 						return $http.get("kbLayouts.json");
