@@ -1,4 +1,3 @@
 {
-  "eaasBackendURL": "http://localhost:8080/emil/Emil/",
-  "emilDataConnectURL" : "http://localhost:8080/emil/EmilData/" 
+  "eaasBackendURL": "http://localhost:8080/emil/",
 }
