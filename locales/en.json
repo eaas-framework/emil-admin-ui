@@ -28,7 +28,7 @@
   "BASE_MENU_ENVS" : "Environments",
   "BASE_MENU_OBJENVS": "Object Environments",
   "BASE_MENU_SW" : "Software",
-  "BASE_MENU_SHOW_SETTINGS_DLG": "Einstellungen",
+  "BASE_MENU_SHOW_SETTINGS_DLG": "Settings",
   "BASE_MENU_NEW_ENV" : "Create Base Environment",
 
   "SETTINGS_DLG_SET_KEYBOARD_LAYOUT": "Change Keyboard layout",
