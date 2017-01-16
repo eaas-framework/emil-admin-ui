@@ -557,7 +557,8 @@
 								return;
 							}
 							
-							this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
+							//this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
+							this.iframeurl = "emulator-iframe.html?controlurl=" + encodeURIComponent(configureEnv.data.iframeurl);
 						},
 						controllerAs: "startEmuCtrl"
 					},

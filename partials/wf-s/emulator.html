@@ -17,9 +17,9 @@
 		}
 		
 		var iframe = document.getElementById("emulator-iframe");
-		
-		if (message.origin !== iframe.src.match(/^.+\:\/\/[^\/]+/)[0])
-			return;
+
+//		if (message.origin !== iframe.src.match(/^.+\:\/\/[^\/]+/)[0])
+//			return;
 		
 		if (message.data.opcode === "resize") {
 			iframe.width  = message.data.w;

@@ -1,0 +1,156 @@
+.page-index * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+.page-index {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+
+    position: relative;
+
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.nav-meta {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 11px;
+}
+
+h1 {
+    font-size: 48px;
+    float: left;
+    position: relative;
+    padding: 0;
+    margin: 0.1em 0 0.5em 0;
+}
+
+    .logo {
+        background-image: #003ee0;
+        background-image: linear-gradient(45deg, #003ee0, #002482);
+        display: inline-block;
+    }
+        .logo > span {
+            display: block;
+            width: 183px;
+            height: 48px;
+            text-indent: -9001px;
+            background-image: url(http://bw-fla.uni-freiburg.de/petscii-stamp.png);
+        }
+
+    h1 .sticker {
+        font-size: 24px;
+        font-weight: bold;
+        position: absolute;
+        bottom: 40px;
+        right: -40px;
+        font-family: "Comic Sans MS";
+        color: #f30;
+        -webkit-transform: rotate(-20deg);
+        -moz-transform: rotate(-20deg);
+        -ms-transform: rotate(-20deg);
+        transform: rotate(-20deg);
+    }
+
+.tagline {
+    clear: left;
+    margin-bottom: 2em;
+}
+
+    .page-index h1,
+    .page-index h2 {
+        font-weight: normal;
+        color: #333;
+    }
+
+    .page-index > section {
+        overflow: auto;
+        padding: 1em 0 2em 0;
+    }
+
+        .button-big {
+            display: block;
+            float: left;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+            margin-right: 2ex;
+
+            height: 96px;
+
+            border-radius: 8px;
+            padding: 1em;
+
+            box-shadow:
+                inset 2px 2px 8px rgba(255,255,255,0.6),
+                inset -2px -2px 8px rgba(0,0,0,0.5),
+                4px 4px 8px rgba(0,0,0,0.2);
+
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            border: 2px solid #ccc;
+            border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+            background-color: black;
+            border-bottom-color: #b3b3b3;
+            background-image: linear-gradient( to bottom, #fff, #e6e6e6 ); 
+        }
+
+            .button-big:hover {
+                background-image: linear-gradient( to bottom, #f6f6f6, #cdcdcd ); 
+            }
+
+            .button-big:active {
+                background-image: linear-gradient( to bottom, #cdcdcd, #f0f0f0 );
+                padding: 1.2em 1em 0.8em 1em !important;
+            }
+
+            .button-big > strong {
+                font-size: 18px;
+                font-weight: normal;
+                display: block;
+                opacity: 0.8;
+                margin-bottom: 0.5em;
+                text-shadow: 0px 1px 1px white;
+            }
+
+                .caption {
+                    padding: 0 2em;
+                    font-size: 11px;
+                }
+
+        .description {
+            float: left;
+            font-size: 11px;
+            padding-top: 14px;
+            width: 300px;
+            margin-left: 2em;
+            color: #666;
+        }
+
+
+
+section.whole-system-preservation .button-big {
+    width: 300px;
+}
+
+section.mass-curation-digital-art .button-big {
+    width: 240px;
+}
+
+section.modify-cite .button-big {
+    width: 280px;
+}
+
+section.automate-blackbox .button-big {
+    width: 200px;
+}
+
+section.base-images .description {
+    margin-left: 0;
+}

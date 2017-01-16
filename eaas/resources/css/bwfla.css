@@ -1,0 +1,294 @@
+/*
+	Theme Name: WordPress Theme Uni-Freiburg
+	URI: http://blog.uni-freiburg.de
+	Basierend auf Dialogue Avenue 5.0 von Webfunk
+	Version: 1.2
+	Author: Stabsstelle Marketing und Wissensmanagement Albert-Ludwigs-Universit&auml;t Freiburg
+	Author URL: http://www.mw.uni-freiburg.de/
+
+	The CSS, XHTML and design is released under the GPLv3:
+	http://www.opensource.org/licenses/gpl-3.0.html
+
+/* ---------------------------------------------------------------------------------- */
+
+html, body {margin: 0; padding: 0;}
+
+p {margin: 0px 0px 12px 0px;}
+
+a {color: #2a6ebb; text-decoration: none;}
+
+* {padding: 0; margin: 0;}
+
+a:hover {color: #6e99d4; text-decoration: underline;}
+
+#content a:hover {color: #6e99d4; text-decoration: underline;}
+
+html, body {
+	font-size: 12px;
+	background-color: #ffffff;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	height: 100%
+}
+
+/* ---------------------------------------------------------------------------------- */
+
+#header { 
+	background-color: #0f4d92;
+	color: white;
+	font-size: 20px;
+	padding: 1px 0 4px 8px;
+}
+
+#header-logo
+{
+	background-color: #ffffff;
+	position: absolute;
+	right: 0px;
+}
+
+#content {
+	margin-top: 2em;
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+.start-panel {
+	width:90%;
+	margin: 0 auto 30px auto;
+	max-width: 1200px;
+	min-height: 500px;
+}
+
+#footer #footercontent {
+	background-color: #E2E2E0;
+	margin-top: 5px;
+}
+
+#footer #footerimage {
+	margin: auto;
+	display: block;
+}
+
+
+input {
+	color: #000000;
+	font-size: 11px;
+	background: #efefef;
+	border: 1px solid #cccccc;}
+
+
+	#commentform {color: #6e99d4;}
+
+	#commentform p {border-color: #cccccc;}
+
+	#commentform label {border-color: #cccccc;}
+
+	#commentform input {border-color: #cccccc;}
+
+        .commentbody p {line-height: 1.2em; font-style: normal;}
+
+	.adminbody p {line-height: 1.2em; font-style: normal;}
+
+	.trackbody p {line-height: 1.2em; font-style: normal;}
+
+	.authorlink {color: #000000; font-size: 11px; font-weight: bold;}
+
+	.authorlink a {color: #000000; font-size: 11px; font-weight: bold;}
+
+	.commentlist {list-style: none;}
+
+	.commentlink {font-size: 10px; color: #2a6ebb;}
+
+	.nocomments {background: none; color: #1f5a66;}
+
+	.commentbody p a {color: #6E99D4;}
+
+	.adminbody p a {color: #b34700;}
+
+	.trackbody p a {color: #000000;}
+
+	.editlink a {color: #b34700;}
+
+/* ---------------------------------------------------------------------------------- */
+
+acronym {text-decoration: none; color: #008fb3; font-style: italic;}
+
+del {color: #73b3bf;}
+
+ins {color: #0085a6; text-decoration: none;}
+
+em {color: #003c47;}
+
+ol, form {margin: 0; padding: 0; list-style-type: none;}
+
+code {color: #1f5a66;}
+
+blockquote {
+	clear: left;
+	color: #9dafb3;
+	text-align: justify;
+	padding: 0px 0px 0px 25px;
+	margin: 20px 40px 16px 37px;
+	border-left: 4px solid #cccccc;}
+
+/* ---------------------------------------------------------------------------------- */
+
+/* Sticky Footer Solution Start */
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+.content {
+    display: table-row;  /* height is dynamic, and will expand... */
+    height: 100%;        /* ...as content is added (won't scroll) */
+}
+
+.main_footer {
+    display: table-row;
+}
+
+/* Sticky Footer Solution End */
+
+/* Infotext Panel Start */
+.infotextPanel {
+	width: 700px;
+	margin: 10px auto;
+}
+
+.infotextPanel font {
+	font-size: 15px;
+}
+/* Infotext Panel End */
+
+/* BWfla Primefaces hacks begin */
+
+
+.ui-inputfield.ui-state-error, .ui-widget-header .ui-inputfield.ui-state-error, .ui-widget-content .ui-inputfield.ui-state-error {
+	border: 1px solid #DF3A52 !important;
+}
+
+/* BWfla Primefaces hacks end */
+
+.formGrid tr td:first-child {
+	text-align: right;
+	position: relative;
+	left: 15px;
+}
+
+.formGrid .ui-widget-content {
+	border: 0px solid transparent;
+}
+
+.formGrid td {
+	padding: 4px 4px;
+}
+
+.formGrid td td {
+	padding: 0;
+}
+
+.steplabel {
+	margin-right: 70px;
+	color: grey;
+}
+
+.steplabelactive {
+	color: black;
+	font-weight: bold;
+}
+
+
+div#emulator {
+    background: black;
+    overflow: hidden;
+}
+    div#emulator > div#vnc {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+        div#emulator > div#vnc > img {
+            position: absolute;
+            top: -240px;
+            left: -320px;
+        }
+
+
+div#evaluation {
+    width: 436px;
+    overflow-y: auto;
+}
+
+/* ########################################## */
+.emulator-menu {
+	display: none;
+    border-radius: 7px 7px 0 0;
+    padding: 0 5px;
+    margin: 0;
+    background-color: #333;
+    font-size: 0;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(116, 116, 116);
+    max-height: 100px;
+    text-align: left;				    
+}
+
+.emulator-menu li {
+    color: white;
+    display: inline-block;
+    padding: 7px 7px 4px 7px;
+    margin: 0;
+    font-size: 16px;
+}
+
+.emulator-menu li:hover {
+    cursor: pointer;
+    background-color: #0b75b2;
+}
+
+.headerwarn {
+	background-color: red;
+	text-align: center;
+	padding: 5px 0;
+}
+
+.main_fieldset {
+	margin-bottom: 5px;
+}
+
+.descriptor_image {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+	border-radius: 2px;
+}
+
+.footer_wrapper {
+	margin-top: 15px;
+}
+
+.start-panel-inner {
+	display: table;
+	width: 100%;
+	padding: 3px;
+}
+
+.logos-wrapper {
+	display: table-cell;
+	width: 140px;
+	vertical-align: top;
+	padding-right: 32px;
+}
+
+.logo-image {
+	display: block;
+	margin-bottom: 25px;
+	width: 100%;
+}
