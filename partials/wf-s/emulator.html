@@ -5,6 +5,18 @@
 </div>
 
 <script type="application/javascript">
+	var BWFLA = BWFLA || {};
+
+	BWFLA.attachEmulator = function(target, controlurl) {
+		console.log(target); // e.g. #emulator-container
+		console.log(controlurl);
+	}
+
+
+
+
+
+
 	$("html, body").addClass("wait");
 	
 	// listen to size change messages from the iframe

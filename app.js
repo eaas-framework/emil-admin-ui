@@ -556,6 +556,8 @@
 								$state.go('error', {errorMsg: {title: "Emulation Error " + configureEnv.data.status, message: configureEnv.data.message}});
 								return;
 							}
+
+							BWFLA.attachEmulator('#emulator-container', configureEnv.data.iframeurl);
 							
 							//this.iframeurl = $sce.trustAsResourceUrl(configureEnv.data.iframeurl);
 							this.iframeurl = "emulator-iframe.html?controlurl=" + encodeURIComponent(configureEnv.data.iframeurl);
