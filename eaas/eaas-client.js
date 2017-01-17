@@ -18,7 +18,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 		$.get(controlurl + "/state")
 			.done(function (data) {
 				if (data.state == "running") {
-					this.establishGuacamoleTunnel(controlurl + "/tunnel");
+					this.establishGuacamoleTunnel(controlurl);
 					if (this.onConnect) {
 						this.onConnect();
 					}
@@ -45,8 +45,11 @@ EaasClient.Client = function(api_entrypoint, container) {
 		}
 	}
 	
+	this.keepalive = function(controlUrl) {
+		$.post(controlUrl + "/keepalive");
+	}
 	
-	this.establishGuacamoleTunnel = function(tunnelUrl) {
+	this.establishGuacamoleTunnel = function(controlUrl) {
         window.onbeforeunload = function()
         {
             guac.disconnect();
@@ -61,7 +64,7 @@ EaasClient.Client = function(api_entrypoint, container) {
         };
           
        
-		var guac = new Guacamole.Client(new Guacamole.HTTPTunnel(tunnelUrl));
+		var guac = new Guacamole.Client(new Guacamole.HTTPTunnel(controlUrl + "/tunnel"));
 		var displayElement = guac.getDisplay().getElement();
 		
 		BWFLA.hideClientCursor(guac);
@@ -101,6 +104,8 @@ EaasClient.Client = function(api_entrypoint, container) {
 		if (this.onReady) {
 			this.onReady();
 		}
+		
+		setInterval(this.keepalive.bind(this, controlUrl), 1000);
 		
 		/*
 		oskeyboard = new Guacamole.OnScreenKeyboard("/emucomp/resources/layouts/en-us-qwerty.xml");
