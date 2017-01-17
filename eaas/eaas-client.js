@@ -3,7 +3,7 @@
 var EaasClient = EaasClient || {};
 
 EaasClient.Client = function(api_entrypoint, container) {
-	var API_URL = api_entrypoint;
+	var API_URL = api_entrypoint.replace(/([^:])(\/\/+)/g, '$1/');
 	var container = container;
 	
 	function formatStr(format) {
@@ -130,7 +130,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 				kbLanguage || "us", kbLayout || "pc105")).
 			done(function (data) {
 				if (data.status == 0) {
-					this.pollState(data.iframeurl);
+					this.pollState(data.iframeurl.replace(/([^:])(\/\/+)/g, '$1/'));
 				} else {
 					this._onError(data.message);
 				}
