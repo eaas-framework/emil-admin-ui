@@ -41,7 +41,9 @@ EaasClient.Client = function(api_entrypoint, container) {
 	}
 
 	this._onError = function(msg) {
-		if (this.guac)
+		if (this.keepaliveIntervalId)
+			clearInterval(this.keepaliveIntervalId);
+		if (this.guac) 
 			this.guac.disconnect();
 		if (this.onError) {
 			this.onError(msg || "No error message specified");
@@ -117,7 +119,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 			this.onReady();
 		}
 		
-		setInterval(this.keepalive.bind(this, controlUrl), 1000);
+		this.keepaliveIntervalId = setInterval(this.keepalive.bind(this, controlUrl), 1000);
 		
 		/*
 		oskeyboard = new Guacamole.OnScreenKeyboard("/emucomp/resources/layouts/en-us-qwerty.xml");
