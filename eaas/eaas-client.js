@@ -18,19 +18,31 @@ EaasClient.Client = function(api_entrypoint, container) {
 		$.get(controlurl + "/state")
 			.done(function (data) {
 				if (data.state == "running") {
-					this.establishGuacamoleTunnel(controlurl);
-					if (this.onConnect) {
-						this.onConnect();
+					if (!this.guac) {
+						this.establishGuacamoleTunnel(controlurl);
+						if (this.onConnect) {
+							this.onConnect();
+						}
 					}
+					setTimeout(this.pollState.bind(this), 1000, controlurl);
 				} else if (data.state == "failed") {
 					this._onError("An internal server error occurred");
+				} else if (data.state == "client_fault") {
+					this._onError("A client error occurred");
+				} else if (data.state == "stopped") {
+					this._onError("The emulator was stopped");
 				} else {
 					setTimeout(this.pollState.bind(this), 1000, controlurl);
 				}
+			}.bind(this))
+			.fail(function(xhr, textStatus, error) {
+				this._onError("Could not determine component state");
 			}.bind(this));
 	}
 
 	this._onError = function(msg) {
+		if (this.guac)
+			this.guac.disconnect();
 		if (this.onError) {
 			this.onError(msg || "No error message specified");
 		}
@@ -52,8 +64,8 @@ EaasClient.Client = function(api_entrypoint, container) {
 	this.establishGuacamoleTunnel = function(controlUrl) {
         window.onbeforeunload = function()
         {
-            guac.disconnect();
-        }
+            this.guac.disconnect();
+        }.bind(this);
        
         $.fn.focusWithoutScrolling = function()
         {
@@ -64,14 +76,14 @@ EaasClient.Client = function(api_entrypoint, container) {
         };
           
        
-		var guac = new Guacamole.Client(new Guacamole.HTTPTunnel(controlUrl + "/tunnel"));
-		var displayElement = guac.getDisplay().getElement();
+		this.guac = new Guacamole.Client(new Guacamole.HTTPTunnel(controlUrl + "/tunnel"));
+		var displayElement = this.guac.getDisplay().getElement();
 		
-		BWFLA.hideClientCursor(guac);
+		BWFLA.hideClientCursor(this.guac);
 		container.prepend(displayElement);
 		
-		BWFLA.registerEventCallback(guac.getDisplay(), 'resize', this._onResize.bind(this));
-		guac.connect(); 
+		BWFLA.registerEventCallback(this.guac.getDisplay(), 'resize', this._onResize.bind(this));
+		this.guac.connect(); 
 		
 		/*
 		/window.addEventListener("message", function(event) {
@@ -82,7 +94,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 	
 		var mouse = new Guacamole.Mouse(displayElement);
 		var touch = new Guacamole.Mouse.Touchpad(displayElement);
-		var mousefix = new BwflaMouse(guac);
+		var mousefix = new BwflaMouse(this.guac);
 	   
 		//touch.onmousedown = touch.onmouseup = touch.onmousemove =
 		//mouse.onmousedown = mouse.onmouseup = mouse.onmousemove = 
@@ -94,8 +106,8 @@ EaasClient.Client = function(api_entrypoint, container) {
 		
 		var keyboard = new Guacamole.Keyboard(displayElement);
 		
-		keyboard.onkeydown = function (keysym) { guac.sendKeyEvent(1, keysym); };
-		keyboard.onkeyup = function (keysym) { guac.sendKeyEvent(0, keysym); };
+		keyboard.onkeydown = function (keysym) { this.guac.sendKeyEvent(1, keysym); }.bind(this);
+		keyboard.onkeyup = function (keysym) { this.guac.sendKeyEvent(0, keysym); }.bind(this);
 		
 		$(displayElement).attr('tabindex', '0');
 		$(displayElement).css('outline', '0');
@@ -139,6 +151,9 @@ EaasClient.Client = function(api_entrypoint, container) {
 				} else {
 					this._onError(data.message);
 				}
+			}.bind(this))
+			.fail(function(xhr, textStatus, error) {
+				this._onError($.parseJSON(xhr.responseText).message);
 			}.bind(this));
 	}
 }
