@@ -14,17 +14,19 @@ EaasClient.Client = function(api_entrypoint, container) {
 	};
 	
 	
-	this.pollState = function(controlurl) {
+	this.pollState = function(controlurl, componentId) {
 		$.get(controlurl + "/state")
 			.done(function (data) {
 				if (data.state == "running") {
 					if (!this.guac) {
 						this.establishGuacamoleTunnel(controlurl);
+						this.keepaliveIntervalId = setInterval(this.keepalive.bind(this, componentId), 1000);
+
 						if (this.onConnect) {
 							this.onConnect();
 						}
 					}
-					setTimeout(this.pollState.bind(this), 1000, controlurl);
+					setTimeout(this.pollState.bind(this), 1000, controlurl, componentId);
 				} else if (data.state == "failed") {
 					this._onError("An internal server error occurred");
 				} else if (data.state == "client_fault") {
@@ -32,7 +34,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 				} else if (data.state == "stopped") {
 					this._onError("The emulator was stopped");
 				} else {
-					setTimeout(this.pollState.bind(this), 1000, controlurl);
+					setTimeout(this.pollState.bind(this), 1000, controlurl, componentId);
 				}
 			}.bind(this))
 			.fail(function(xhr, textStatus, error) {
@@ -59,8 +61,10 @@ EaasClient.Client = function(api_entrypoint, container) {
 		}
 	}
 	
-	this.keepalive = function(controlUrl) {
-		$.post(controlUrl + "/keepalive");
+	this.keepalive = function(componentId) {
+		var keepalive = "/{0}/keepalive";
+
+		$.post(API_URL + formatStr(keepalive, componentId));
 	}
 	
 	this.establishGuacamoleTunnel = function(controlUrl) {
@@ -119,8 +123,6 @@ EaasClient.Client = function(api_entrypoint, container) {
 			this.onReady();
 		}
 		
-		this.keepaliveIntervalId = setInterval(this.keepalive.bind(this, controlUrl), 1000);
-		
 		/*
 		oskeyboard = new Guacamole.OnScreenKeyboard("/emucomp/resources/layouts/en-us-qwerty.xml");
 		
@@ -149,7 +151,7 @@ EaasClient.Client = function(api_entrypoint, container) {
 				kbLanguage || "us", kbLayout || "pc105")).
 			done(function (data) {
 				if (data.status == 0) {
-					this.pollState(data.iframeurl.replace(/([^:])(\/\/+)/g, '$1/'));
+					this.pollState(data.iframeurl.replace(/([^:])(\/\/+)/g, '$1/'), data.id);
 				} else {
 					this._onError(data.message);
 				}
