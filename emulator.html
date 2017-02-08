@@ -1,65 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	
-	<script src="eaas/resources/js/jquery.js"></script>
-	
-	<script src="eaas/resources/js/bwfla.pointerlock.js" ></script>
-	<script src="eaas/resources/js/bwfla.eventhandler.js" ></script>
-	<script src="eaas/resources/js/bwfla.mouse.js" ></script>
-	<script src="eaas/resources/js/screenfull.min.js" ></script>
-	<script src="eaas/resources/guacamole/ArrayBufferReader.js" ></script>
-	<script src="eaas/resources/guacamole/ArrayBufferWriter.js" ></script>
-	<script src="eaas/resources/guacamole/AudioChannel.js" ></script>
-	<script src="eaas/resources/guacamole/BlobReader.js" ></script>
-	<script src="eaas/resources/guacamole/Client.js"></script>
-	<script src="eaas/resources/guacamole/Display.js"></script>
-	<script src="eaas/resources/guacamole/InputStream.js" ></script>
-	<script src="eaas/resources/guacamole/IntegerPool.js" ></script>
-	<script src="eaas/resources/guacamole/Keyboard.js" ></script>
-	<script src="eaas/resources/guacamole/Layer.js" ></script>
-	<script src="eaas/resources/guacamole/Mouse.js"></script>
-	<script src="eaas/resources/guacamole/OnScreenKeyboard.js" ></script>
-	<script src="eaas/resources/guacamole/OutputStream.js" ></script>
-	<script src="eaas/resources/guacamole/Parser.js" ></script>
-	<script src="eaas/resources/guacamole/Status.js" ></script>
-	<script src="eaas/resources/guacamole/StringReader.js" ></script>
-	<script src="eaas/resources/guacamole/StringWriter.js" ></script>
-	<script src="eaas/resources/guacamole/Tunnel.js" ></script>
-	
-	<script src="eaas/eaas-client.js" ></script>
-	
-	
-	<link rel="stylesheet" type="text/css" href="eaas/resources/css/keyboard.css" >
-	
-	<style>
-	body {
-		margin: 0px;
-	}
-	
-	.display {
-		position: absolute;
-	}
-	</style>
-	
-	
+    <meta charset="utf-8">
 
+    <script src="vendor/jquery/jquery-2.2.2.min.js"></script>
+
+    <script src="vendor/eaas-client/guacamole/guacamole.min.js"></script>
+    <script src="vendor/eaas-client/eaas-client.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="vendor/eaas-client/guacamole/guacamole.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/eaas-client/eaas-client.min.css">
+
+    <style>
+    body {
+        margin: 0px;
+    }
+
+    #display {
+        display: none;
+        position: absolute;
+        text-align:center
+    }
+    </style>
 </head>
 
 <body>
-	<div id="wait">Wait for it...</div>
-	<div id="display" class="display" align="center" style="display: none; cursor: url(eaas/resources/images/transcursor.png) 1 4, auto !important;"></div>
-	<script>
-	var client = new EaasClient.Client("http://localhost:8080/emil/Emil", $("#display")[0]);
-	client.onConnect = function() {
-		$("#wait").hide();
-		$("#display").show();
-	}
-	client.onError = function(message) {
-		alert("An error occurred: "+ message);
-	}
-	client.startEnvironment("2010");
-	</script>
+    <div id="wait">Wait for it...</div>
+    <div id="display" class="eaas-emulator-container-transcursor"></div>
+
+    <script>
+        var client = new EaasClient.Client("http://192.52.2.216:8080/emil/Emil", $("#display")[0]);
+        client.onConnect = function() {
+            $("#wait").hide();
+            $("#display").show();
+        }
+        client.onError = function(message) {
+            alert("An error occurred: "+ message);
+        }
+        client.startEnvironment("2010");
+    </script>
 </body>
 </html>
